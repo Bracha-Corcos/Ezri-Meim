@@ -1,8 +1,6 @@
 how to compile?
-1. npm create vite@latest Ezri-Meim
-2. cd Ezri-Meim
-3. npm install
-4. npm run dev
+1. npm install react-router-dom
+2. npm run dev
 
 
 # React + Vite
