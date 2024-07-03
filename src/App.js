@@ -1,44 +1,22 @@
-import React from 'react'
-import Signup from './signup'
-import Login from './login'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Signup from './signup';
+import Login from './login';
 
-
-function App () {
+function App() {
   return (
-    <BrowserRouter>
-    <Routes>
-      <Route path = '/signup' element={<Signup/>}></Route>
-      <Route path = '/login' element={<Login/>}></Route>
-    </Routes>
-    </BrowserRouter>
-  )
+    React.createElement(
+      BrowserRouter,
+      null,
+      React.createElement(
+        Routes,
+        null,
+        React.createElement(Route, { path: '/signup', element: React.createElement(Signup) }),
+        React.createElement(Route, { path: '/login', element: React.createElement(Login) }),
+        React.createElement(Route, { path: '/', element: React.createElement(Navigate, { to: '/signup' }) })
+      )
+    )
+  );
 }
 
-export default App
-
-
-// import React from 'react';
-// import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-// import Login from './login';
-// import Signup from './signup';
-// //import Home from './home'; // Import Home component
-// import './App.css';
-
-// const App = () => {
-//   return (
-//     <Router>
-//       <div>
-//         <Routes>
-//           <Route path="/login" element={<Login />} />
-//           <Route path="/signup" element={<Signup />} />
-//           {/* <Route path="/home" element={<Home />} /> */} {/* Uncomment when Home component is ready */}
-//           <Route path="/" element={<h1>Welcome to the App</h1>} />
-//         </Routes>
-//       </div>
-//     </Router>
-//   );
-// };
-
-// export default App;
-
+export default App;
