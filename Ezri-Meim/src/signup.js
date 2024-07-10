@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './style.css';
-import { auth, db } from './firebase';
+import { auth, db } from './firebase.js';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, doc, setDoc, getDocs, query, where } from 'firebase/firestore';
 import { Link } from 'react-router-dom';

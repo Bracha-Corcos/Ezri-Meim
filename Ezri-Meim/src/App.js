@@ -1,22 +1,23 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Signup from './signup';
-import Login from './login';
+import { createRoot } from 'react-dom/client';
+import Signup from './signup.js';
+import Login from './login.js';
 
 function App() {
   return (
-    React.createElement(
-      BrowserRouter,
-      null,
-      React.createElement(
-        Routes,
-        null,
-        React.createElement(Route, { path: '/signup', element: React.createElement(Signup) }),
-        React.createElement(Route, { path: '/login', element: React.createElement(Login) }),
-        React.createElement(Route, { path: '/', element: React.createElement(Navigate, { to: '/signup' }) })
-      )
-    )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Navigate to="/signup" />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
+
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);
 
 export default App;
