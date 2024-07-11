@@ -1,8 +1,26 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { createRoot } from 'react-dom/client';
+import PropTypes from 'prop-types';
 import Signup from './signup.js';
 import Login from './login.js';
+import Dashboard from './Dashboard.js';
+
+const PrivateRoute = ({ element, allowedRoles }) => {
+  const userRole = localStorage.getItem('userRole');
+  const isAuthenticated = !!userRole;
+  const isAuthorized = allowedRoles.includes(userRole);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+
+  return isAuthorized ? element : <Navigate to="/dashboard" />;
+};
+
+PrivateRoute.propTypes = {
+  element: PropTypes.element.isRequired,
+  allowedRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
 
 function App() {
   return (
@@ -10,14 +28,15 @@ function App() {
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Navigate to="/signup" />} />
+        <Route 
+          path="/dashboard" 
+          element={<PrivateRoute element={<Dashboard />} allowedRoles={['forumMember', 'volunteer', 'admin']} />} 
+        />
+        <Route path="/" element={<Navigate to="/dashboard" />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
-const container = document.getElementById('root');
-const root = createRoot(container);
-root.render(<App />);
-
 export default App;
+

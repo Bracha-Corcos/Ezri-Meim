@@ -1,67 +1,76 @@
 import React, { useState } from 'react';
 import './style.css';
-import { auth } from './firebase.js';
+import { auth, db } from './firebase.js';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { Link } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from './logo.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log("התחברת בהצלחה");
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      const userData = userDoc.data();
+
+      if (!userData.isApproved) {
+        setError('החשבון שלך עדיין לא אושר. אנא המתן לאישור מנהל.');
+        await auth.signOut();
+        return;
+      }
+
+      const role = userData.role;
+      localStorage.setItem('userRole', role);
+      navigate('/dashboard');
     } catch (err) {
       console.log(err);
+      setError('שם משתמש או סיסמה שגויים');
     }
   };
 
-  return React.createElement(
-    'div',
-    { className: 'signup-container' },
-    React.createElement('img', { src: logo, alt: 'Logo', className: 'logo' }),
-    React.createElement(
-      'form',
-      { className: 'signup-form', onSubmit: handleSubmit },
-      React.createElement('h2', null, 'התחברות'),
-      React.createElement(
-        'div',
-        { className: 'input-row' },
-        React.createElement('input', {
-          type: 'email',
-          id: 'email',
-          name: 'email',
-          placeholder: 'אימייל',
-          autoComplete: 'email',
-          value: email,
-          onChange: (e) => setEmail(e.target.value)
-        })
-      ),
-      React.createElement(
-        'div',
-        { className: 'input-row' },
-        React.createElement('input', {
-          type: 'password',
-          id: 'password',
-          name: 'password',
-          placeholder: 'סיסמא',
-          autoComplete: 'current-password',
-          value: password,
-          onChange: (e) => setPassword(e.target.value)
-        })
-      ),
-      React.createElement('button', null, 'התחברות'),
-      React.createElement('br'),
-      React.createElement(
-        'p',
-        null,
-        'אין לך חשבון? ',
-        React.createElement(Link, { to: '/signup' }, 'הירשם')
-      )
-    )
+  return (
+    <div className="signup-container">
+      <img src={logo} alt="Logo" className="logo" />
+      <form className="signup-form" onSubmit={handleSubmit}>
+        <h2>התחברות</h2>
+        {error && <p className="error">{error}</p>}
+        <div className="input-row">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="אימייל"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="input-row">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="סיסמה"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button type="submit">התחברות</button>
+        <br />
+        <p>
+          אין לך חשבון? <Link to="/signup">הירשם</Link>
+        </p>
+      </form>
+    </div>
   );
 };
 
