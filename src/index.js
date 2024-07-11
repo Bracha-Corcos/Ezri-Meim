@@ -5,12 +5,9 @@ import App from './App.js';
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-// root.render(
-//   React.createElement(React.StrictMode, null, React.createElement(App))
-// );
-
 root.render(
-  <StrictMode>
+  <React.StrictMode>
     <App />
-  </StrictMode>
+  </React.StrictMode>
 );
+
