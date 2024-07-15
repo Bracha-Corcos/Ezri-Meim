@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import './Calendar.css';
-import EventModal from './EventModal';
+import './style.css';
+import EventModal from './EventModal.js';
 
 const dayNames = ["א", "ב", "ג", "ד", "ה", "ו", "ש"];
 const monthNames = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
