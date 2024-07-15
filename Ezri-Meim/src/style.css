@@ -18,11 +18,13 @@ body {
     min-height: 100vh;
     padding: 20px;
     position: relative;
-    background-image: url('C:\Users\ortal\OneDrive\שולחן העבודה\הנדסת תוכנה\שנה ג 2024\הנדסת תוכנה בשירות הקהילה\Project\Ezri-Meim\Ezri-Meim\src\backgroundImage.jpg');
+    background-image: url('./backgroundImage.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
+
+
 
 .signup-form {
     background-color: rgba(255, 255, 255, 0.9);
