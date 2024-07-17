@@ -1,3 +1,4 @@
+//firestoreService.js
 import { db } from './firebase.js'; // Assuming db is the firestore instance from firebase.js
 
 const eventsCollection = collection(db, 'events');

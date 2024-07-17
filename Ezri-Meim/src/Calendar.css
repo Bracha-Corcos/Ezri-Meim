@@ -316,7 +316,7 @@ body {
 
 .react-calendar__tile {
     position: relative;
-    height: 100px;  /* או כל גובה אחר שמתאים לך */
+    height: 100px; 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

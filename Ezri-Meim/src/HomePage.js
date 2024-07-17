@@ -78,11 +78,11 @@ const HomePage = () => {
     <div className="homepage-container">
       <div className="page-header">
         <img src={logo} alt="Logo" className="logo" />
-        <h1>Welcome to the Homepage</h1>
+        <h1>ברוך הבא לדף הבית</h1>
       </div>
       <div className="homepage-menu">
         {!isAuthenticated && (
-          <button onClick={() => navigateTo('/personal-area')}>Personal Area</button>
+          <button onClick={() => navigateTo('/personal-area')}>איזור אישי</button>
         )}
         <div className="forum-dropdown">
           <button onClick={() => setShowForumDropdown(!showForumDropdown)}>פורומים</button>
@@ -94,7 +94,7 @@ const HomePage = () => {
           )}
         </div>
         {isAuthenticated && (
-          <button onClick={() => navigateTo('/calendar')}>Calendar</button>
+          <button onClick={() => navigateTo('/calendar')}>לוח שנה</button>
         )}
         {userRole === 'admin' && (
           <button onClick={() => navigateTo('/manage-users')}>ניהול משתמשים</button>
