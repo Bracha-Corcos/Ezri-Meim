@@ -18,4 +18,3 @@ const EventList = ({ events, onDeleteEvent }) => {
 };
 
 export default EventList;
-
