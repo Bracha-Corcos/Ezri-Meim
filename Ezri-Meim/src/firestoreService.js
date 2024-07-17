@@ -1,3 +1,5 @@
+
+
 import { db } from './firebase.js'; // Assuming db is the firestore instance from firebase.js
 
 const eventsCollection = collection(db, 'events');
@@ -18,8 +20,9 @@ export const deleteEventFromFirestore = async (eventId) => {
   await deleteDoc(eventDocRef);
 };
 
-export const fetchEventsFromFirestore = async () => {
-  const querySnapshot = await getDocs(eventsCollection);
+export const fetchEventsFromFirestore = async (uid) => {
+  const q = query(eventsCollection, where("uid", "==", uid));
+  const querySnapshot = await getDocs(q);
   const events = [];
   querySnapshot.forEach((doc) => {
     events.push({ ...doc.data(), id: doc.id });
