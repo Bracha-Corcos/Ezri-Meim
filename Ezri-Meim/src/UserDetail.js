@@ -61,7 +61,7 @@ const UserDetail = () => {
         <p><strong>שם משתמש:</strong> {user.username}</p>
         <p><strong>טלפון:</strong> {user.phone}</p>
         <p><strong>כתובת:</strong> {user.address}</p>
-        <p><strong>תפקיד:</strong> {user.role}</p>
+        <p><strong>תפקיד:</strong> {user.role === 'admin' ? 'מנהל' : 'חבר פורומים'}</p>
         <p><strong>מאושר:</strong> {user.isApproved ? 'כן' : 'לא'}</p>
         <div className="marital-status">
           <strong>סטטוס:</strong>

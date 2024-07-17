@@ -11,6 +11,11 @@
 // import UserDetail from './UserDetail.js';
 // import MonthlyCalendar from './MonthlyCalendar.js';
 // import ResetPassword from './ResetPassword.js';
+// import GeneralForum from './generalForum.js';
+// import MenForum from './menForum.js';
+// import WomenForum from './womenForum.js';
+// import BoysForum from './boysForum.js';
+// import GirlsForum from './girlsForum.js';
 
 // const PrivateRoute = ({ element, allowedRoles }) => {
 //   const userRole = localStorage.getItem('userRole');
@@ -56,8 +61,8 @@
 //       setShowWarning(false);
 //       setShowLogoutMessage(false);
 
-//       warningTimer.current = setTimeout(showWarningModal, 25 * 60 * 1000); 
-//       logoutTimer.current = setTimeout(showLogoutModal, 30 * 60 * 1000); 
+//       warningTimer.current = setTimeout(showWarningModal, 25 * 60 * 1000);
+//       logoutTimer.current = setTimeout(showLogoutModal, 30 * 60 * 1000);
 //     };
 
 //     const showWarningModal = () => {
@@ -112,12 +117,34 @@
 //         <Route path="/user-details/:userId" element={<PrivateRoute element={<UserDetail />} allowedRoles={['admin']} />} />
 //         <Route path="/" element={<HomePage />} />
 //         <Route path="/calendar" element={<MonthlyCalendar />} />
+//         <Route
+//           path="/forum/generalForum"
+//           element={<PrivateRoute element={<GeneralForum />} allowedRoles={['forumMember', 'admin']} />}
+//         />
+//         <Route
+//           path="/forum/menForum"
+//           element={<PrivateRoute element={<MenForum />} allowedRoles={['forumMember', 'admin']} />}
+//         />
+//         <Route
+//           path="/forum/womenForum"
+//           element={<PrivateRoute element={<WomenForum />} allowedRoles={['forumMember', 'admin']} />}
+//         />
+//         <Route
+//           path="/forum/boysForum"
+//           element={<PrivateRoute element={<BoysForum />} allowedRoles={['forumMember', 'admin']} />}
+//         />
+//         <Route
+//           path="/forum/girlsForum"
+//           element={<PrivateRoute element={<GirlsForum />} allowedRoles={['forumMember', 'admin']} />}
+//         />
 //       </Routes>
 //     </div>
 //   );
 // }
 
 // export default App;
+
+
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
@@ -264,3 +291,4 @@ function App() {
 }
 
 export default App;
+

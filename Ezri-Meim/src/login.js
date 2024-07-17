@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
@@ -25,6 +26,8 @@ const Login = () => {
 
       if (userData.isApproved) {
         localStorage.setItem('userRole', userData.role);
+        localStorage.setItem('userGender', userData.gender);
+        localStorage.setItem('userMaritalStatus', userData.isMarried.toString());
         navigate('/');
       } else {
         setError('החשבון שלך ממתין לאישור מנהל');
