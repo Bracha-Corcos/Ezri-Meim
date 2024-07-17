@@ -6,7 +6,7 @@ const EventList = ({ events, onDeleteEvent }) => {
 
   return (
     <div>
-      <h3>אירועים בתאריך הנבחר</h3>
+      <h4>אירועים בתאריך הנבחר</h4>
       {events.map((event, index) => (
         <div key={index} className="EventItem">
           <span>{event.date.toDateString()}: {event.title}</span>
