@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query } from 'firebase/firestore';
 import { db } from './firebase.js';
 import EventModal from './EventModal.js';
-import './Calendar.css'
+import './Calendar.css';
 
 const dayNames = ["א", "ב", "ג", "ד", "ה", "ו", "ש"];
 const monthNames = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
@@ -19,6 +18,7 @@ const MonthlyCalendar = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [editingEvent, setEditingEvent] = useState(null);
+  const [showAddEvent, setShowAddEvent] = useState(false);
 
   useEffect(() => {
     const q = query(collection(db, 'events'));
@@ -46,6 +46,7 @@ const MonthlyCalendar = () => {
     setSelectedEvents(eventsOnDate);
     setModalIsOpen(true);
     setEditingEvent(null);
+    setShowAddEvent(false);
   };
 
   const closeModal = () => {
@@ -55,6 +56,7 @@ const MonthlyCalendar = () => {
     setSelectedDate(null);
     setSelectedEvents([]);
     setEditingEvent(null);
+    setShowAddEvent(false);
   };
 
   const handleAddEvent = async () => {
@@ -85,6 +87,7 @@ const MonthlyCalendar = () => {
     setEventTitle(event.title);
     setEventTime(event.time);
     setModalIsOpen(true);
+    setShowAddEvent(true);
   };
 
   const renderTileContent = ({ date, view }) => {
@@ -94,7 +97,14 @@ const MonthlyCalendar = () => {
       );
       return (
         <div className={`calendar-day ${eventsOnDate.length > 0 ? 'has-event' : ''}`}>
-          {eventsOnDate.length > 0 && <div className="event-indicator"></div>}
+          {eventsOnDate.length > 0 && (
+            <div>
+              <div className="event-indicator"></div>
+              {eventsOnDate.map((event, index) => (
+                <div key={index} className="event-title">{event.title}</div>
+              ))}
+            </div>
+          )}
         </div>
       );
     }
@@ -125,6 +135,8 @@ const MonthlyCalendar = () => {
         handleDeleteEvent={handleDeleteEvent}
         handleEditEvent={handleEditEvent}
         setSelectedEvents={setSelectedEvents}
+        showAddEvent={showAddEvent}
+        setShowAddEvent={setShowAddEvent}
       />
     </div>
   );
