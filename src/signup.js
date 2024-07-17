@@ -4,7 +4,7 @@ import './style.css';
 import { auth, db } from './firebase.js';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, doc, setDoc, getDocs, query, where } from 'firebase/firestore';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from './logo.png';
 
 const Signup = () => {
@@ -22,6 +22,8 @@ const Signup = () => {
   const [error, setError] = useState('');
   const [showPasswordHint, setShowPasswordHint] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  
+  const navigate = useNavigate();
 
   const isEmailExists = async (email) => {
     const usersRef = collection(db, 'users');
@@ -147,6 +149,11 @@ const Signup = () => {
       console.error('Error adding document: ', err);
       setError(`שגיאה ברישום: ${err.message}`);
     }
+  };
+
+  const handleConfirmation = () => {
+    setShowConfirmationModal(false);
+    navigate('/');
   };
 
   return (
@@ -279,7 +286,7 @@ const Signup = () => {
           <div className="modal-content">
             <p>הרשמה נקלטה, אנא המתן לאישור מנהל</p>
             <div className="modal-buttons">
-              <button onClick={() => setShowConfirmationModal(false)}>אישור</button>
+              <button onClick={handleConfirmation}>אישור</button>
             </div>
           </div>
         </div>
