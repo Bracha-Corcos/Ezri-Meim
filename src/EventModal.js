@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
+import './Calendar.css'
 
 const EventModal = ({
   isOpen,
@@ -12,8 +13,19 @@ const EventModal = ({
   handleDeleteEvent,
   handleEditEvent,
   eventTime,
-  setEventTime
+  setEventTime,
+  setSelectedEvents
 }) => {
+  const handleDelete = (index) => {
+    handleDeleteEvent(selectedEvents[index]);
+    const updatedEvents = selectedEvents.filter((event, idx) => idx !== index);
+    setSelectedEvents(updatedEvents);
+  };
+
+  const handleEdit = (index) => {
+    handleEditEvent(selectedEvents[index]);
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -23,7 +35,7 @@ const EventModal = ({
       overlayClassName="Overlay"
     >
       <h2>הוספת אירוע</h2>
-      <form onSubmit={handleAddEvent}>
+      <form onSubmit={(e) => { e.preventDefault(); handleAddEvent(); }}>
         <input
           type="text"
           placeholder="כותרת האירוע"
@@ -41,8 +53,8 @@ const EventModal = ({
       {selectedEvents.map((event, index) => (
         <div key={index} className="eventItem">
           <span>{event.title} - {event.time}</span>
-          <button onClick={() => handleEditEvent(index)}>ערוך</button>
-          <button onClick={() => handleDeleteEvent(index)}>מחק</button>
+          <button onClick={() => handleEdit(index)}>ערוך</button>
+          <button onClick={() => handleDelete(index)}>מחק</button>
         </div>
       ))}
     </Modal>
@@ -64,7 +76,8 @@ EventModal.propTypes = {
   handleDeleteEvent: PropTypes.func.isRequired,
   handleEditEvent: PropTypes.func.isRequired,
   eventTime: PropTypes.string.isRequired,
-  setEventTime: PropTypes.func.isRequired
+  setEventTime: PropTypes.func.isRequired,
+  setSelectedEvents: PropTypes.func.isRequired
 };
 
 export default EventModal;
