@@ -43,7 +43,9 @@ const HomePage = () => {
           <button onClick={() => navigateTo('/personal-area')}>Personal Area</button>
         )}
         <button onClick={() => navigateTo('/forums')}>Forums</button>
-        <button onClick={() => navigateTo('/calendar')}>Calendar</button>
+        {isAuthenticated && (
+          <button onClick={() => navigateTo('/calendar')}>Calendar</button>
+        )}
         {userRole === 'admin' && (
           <button onClick={() => navigateTo('/manage-users')}>ניהול משתמשים</button>
         )}

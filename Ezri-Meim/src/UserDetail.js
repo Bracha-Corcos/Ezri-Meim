@@ -8,6 +8,7 @@ import './style.css';
 const UserDetail = () => {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +32,18 @@ const UserDetail = () => {
     setUser(prevState => ({ ...prevState, role: newRole }));
   };
 
+  const handleMaritalStatusChange = () => {
+    setShowConfirmation(true);
+  };
+
+  const confirmMaritalStatusChange = async () => {
+    const newStatus = !user.isMarried;
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, { isMarried: newStatus });
+    setUser(prevState => ({ ...prevState, isMarried: newStatus }));
+    setShowConfirmation(false);
+  };
+
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -50,8 +63,33 @@ const UserDetail = () => {
         <p><strong>כתובת:</strong> {user.address}</p>
         <p><strong>תפקיד:</strong> {user.role}</p>
         <p><strong>מאושר:</strong> {user.isApproved ? 'כן' : 'לא'}</p>
+        <div className="marital-status">
+          <strong>סטטוס:</strong>
+          <span className="status-spacer"></span>
+          <label className="checkbox-container">
+            נשואה/נשוי
+            <input
+              type="checkbox"
+              checked={user.isMarried}
+              onChange={handleMaritalStatusChange}
+            />
+            <span className="checkmark"></span>
+          </label>
+        </div>
+        <p><strong>מגדר:</strong> {user.gender === 'male' ? 'זכר' : 'נקבה'}</p>
         <button onClick={() => navigate('/manage-users')}>חזרה לניהול משתמשים</button>
       </div>
+      {showConfirmation && (
+        <div className="modal">
+          <div className="modal-content">
+            <p>האם לשנות את סטטוס המשתמש?</p>
+            <div className="modal-buttons">
+              <button onClick={confirmMaritalStatusChange}>אישור</button>
+              <button onClick={() => setShowConfirmation(false)}>ביטול</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
