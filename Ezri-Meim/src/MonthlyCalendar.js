@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import './style.css';
+import { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query } from 'firebase/firestore';
+import { db } from './firebase.js';
 import EventModal from './EventModal.js';
+import './Calendar.css'
 
 const dayNames = ["א", "ב", "ג", "ד", "ה", "ו", "ש"];
 const monthNames = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
@@ -17,13 +20,32 @@ const MonthlyCalendar = () => {
   const [selectedEvents, setSelectedEvents] = useState([]);
   const [editingEvent, setEditingEvent] = useState(null);
 
-  const onDateChange = date => setDate(date);
+  useEffect(() => {
+    const q = query(collection(db, 'events'));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const eventsData = [];
+      querySnapshot.forEach((doc) => {
+        eventsData.push({ ...doc.data(), id: doc.id, date: doc.data().date.toDate() });
+      });
+      setEvents(eventsData);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const onDateChange = date => {
+    setDate(date);
+    openModal(date);
+  };
 
   const openModal = date => {
     setSelectedDate(date);
-    const eventsOnDate = events.filter(event => event.date.toDateString() === date.toDateString());
+    const eventsOnDate = events.filter(event => 
+      event.date.toDateString() === date.toDateString()
+    );
     setSelectedEvents(eventsOnDate);
     setModalIsOpen(true);
+    setEditingEvent(null);
   };
 
   const closeModal = () => {
@@ -35,24 +57,30 @@ const MonthlyCalendar = () => {
     setEditingEvent(null);
   };
 
-  const handleAddEvent = () => {
+  const handleAddEvent = async () => {
     if (editingEvent) {
-      setEvents(events.map(event =>
-        event === editingEvent ? { ...event, title: eventTitle, time: eventTime } : event
-      ));
+      const eventDocRef = doc(db, 'events', editingEvent.id);
+      await updateDoc(eventDocRef, {
+        title: eventTitle,
+        time: eventTime
+      });
+      setEditingEvent(null);
     } else {
-      setEvents([...events, { date: selectedDate, title: eventTitle, time: eventTime }]);
+      await addDoc(collection(db, 'events'), {
+        date: selectedDate,
+        title: eventTitle,
+        time: eventTime
+      });
     }
     closeModal();
   };
 
-  const handleDeleteEvent = event => {
-    setEvents(events.filter(e => e !== event));
-    const eventsOnDate = events.filter(e => e.date.toDateString() === selectedDate.toDateString());
-    setSelectedEvents(eventsOnDate);
+  const handleDeleteEvent = async (event) => {
+    const eventDocRef = doc(db, 'events', event.id);
+    await deleteDoc(eventDocRef);
   };
 
-  const handleEditEvent = event => {
+  const handleEditEvent = (event) => {
     setEditingEvent(event);
     setEventTitle(event.title);
     setEventTime(event.time);
@@ -61,15 +89,12 @@ const MonthlyCalendar = () => {
 
   const renderTileContent = ({ date, view }) => {
     if (view === 'month') {
-      const eventsOnDate = events.filter(event => event.date.toDateString() === date.toDateString());
-      const isSelected = selectedDate && selectedDate.toDateString() === date.toDateString();
+      const eventsOnDate = events.filter(event => 
+        event.date.toDateString() === date.toDateString()
+      );
       return (
-        <div className={`calendar-day ${eventsOnDate.length > 0 ? 'has-event' : ''} ${isSelected ? 'react-calendar__tile--selected' : ''}`}>
-          {eventsOnDate.map((event, index) => (
-            <div key={index} className="EventItem" onClick={() => handleEditEvent(event)}>
-              <span>{event.title} - {event.time}</span>
-            </div>
-          ))}
+        <div className={`calendar-day ${eventsOnDate.length > 0 ? 'has-event' : ''}`}>
+          {eventsOnDate.length > 0 && <div className="event-indicator"></div>}
         </div>
       );
     }
@@ -84,7 +109,6 @@ const MonthlyCalendar = () => {
       <Calendar
         onChange={onDateChange}
         value={date}
-        onClickDay={openModal}
         tileContent={renderTileContent}
         locale="he-IL"
         formatMonthYear={formatDate}
@@ -100,6 +124,7 @@ const MonthlyCalendar = () => {
         selectedEvents={selectedEvents}
         handleDeleteEvent={handleDeleteEvent}
         handleEditEvent={handleEditEvent}
+        setSelectedEvents={setSelectedEvents}
       />
     </div>
   );

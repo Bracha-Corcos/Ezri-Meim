@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { db } from './firebase.js';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import logo from './logo.png';
 import './style.css';
 
@@ -23,6 +23,13 @@ const UserDetail = () => {
 
     fetchUser();
   }, [userId, navigate]);
+
+  const handleRoleChange = async (e) => {
+    const newRole = e.target.value;
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, { role: newRole });
+    setUser(prevState => ({ ...prevState, role: newRole }));
+  };
 
   if (!user) {
     return <div>Loading...</div>;

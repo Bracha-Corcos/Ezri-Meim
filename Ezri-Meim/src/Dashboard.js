@@ -35,13 +35,6 @@ const Dashboard = () => {
         {/* ... (forum content) ... */}
       </div>
 
-      {/* Volunteer section - visible to volunteers and admins */}
-      {(userRole === 'volunteer' || userRole === 'admin') && (
-        <div className="volunteer-section">
-          {/* ... (volunteer content) ... */}
-        </div>
-      )}
-
       {/* Admin section - visible only to admins */}
       {userRole === 'admin' && (
         <div className="admin-section">
