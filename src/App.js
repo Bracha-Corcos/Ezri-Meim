@@ -142,7 +142,7 @@ function App() {
           element={<PrivateRoute element={<GirlsForum />} allowedRoles={['forumMember', 'admin']} />}
         />
 
-        <Route path="/forum" element={<ForumList />} />
+        <Route path="/forums" element={<ForumList />} />
         <Route path="/new-forum" element={<NewForum />} />
         <Route path="/forums/:forumId" element={<ViewPosts />} />
         <Route path="/forums/:forumId/posts/:postId" element={<PostDetail />} />
