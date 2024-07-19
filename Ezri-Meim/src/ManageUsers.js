@@ -5,7 +5,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import './style.css'; 
 import logo from './logo.png';
 import emailjs from 'emailjs-com';
-// import { Link } from 'react-router-dom';
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
