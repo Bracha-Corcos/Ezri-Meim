@@ -159,6 +159,10 @@ import ManageUsers from './ManageUsers.js';
 import UserDetail from './UserDetail.js';
 import MonthlyCalendar from './MonthlyCalendar.js';
 import ResetPassword from './ResetPassword.js';
+import NewForum from './components/NewForum.jsx';
+import ForumList from './components/ForumList.jsx';
+import PostDetail from './components/PostDetail.jsx';
+import ViewPosts from './components/ViewPosts.jsx';
 import GeneralForum from './generalForum.js';
 import MenForum from './menForum.js';
 import WomenForum from './womenForum.js';
@@ -285,6 +289,12 @@ function App() {
           path="/forum/girlsForum"
           element={<PrivateRoute element={<GirlsForum />} allowedRoles={['forumMember', 'admin']} />}
         />
+
+        <Route path="/forum" element={<ForumList />} />
+        <Route path="/new-forum" element={<NewForum />} />
+        <Route path="/forums/:forumId" element={<ViewPosts />} />
+        <Route path="/forums/:forumId/posts/:postId" element={<PostDetail />} />
+
       </Routes>
     </div>
   );
