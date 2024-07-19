@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from './firebase.js';
 import { collection, getDocs, updateDoc, deleteDoc, doc, getDoc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './style.css'; 
 import logo from './logo.png';
 import emailjs from 'emailjs-com';
+// import { Link } from 'react-router-dom';
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
@@ -135,7 +136,7 @@ const ManageUsers = () => {
       <div style={{ paddingTop: '20px' }}>
         <div className="filter-buttons">
           <button onClick={() => setFilter('all')}>כל המשתמשים</button>
-          <button onClick={() => setFilter('approved')}>משתמשמים מאושרים</button>
+          <button onClick={() => setFilter('approved')}>משתמשים מאושרים</button>
           <button onClick={() => setFilter('pending')}>משתמשים הממתינים לאישור</button>
         </div>
         <div className="search-and-filter">
@@ -206,6 +207,9 @@ const ManageUsers = () => {
           </div>
         </div>
       )}
+    <div className="back-to-home">
+      <Link to="/" className="back-button">חזרה לדף הבית</Link>
+    </div>
     </div>
   );
 };
