@@ -42,23 +42,41 @@ function ViewPosts() {
     }
   };
 
+  const formatDateTime = (timestamp) => {
+    const date = timestamp.toDate();
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    
+    const formattedDate = date.toLocaleDateString('en-GB', options);
+    const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
+    
+    return `${formattedDate} ${formattedTime}`;
+  };
+
   return (
     <div>
-      <h1>פוסטים:
-      </h1>
-      <ul>
+      <h1>פוסטים:</h1>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
         {posts.map((post) => (
-          <li key={post.id}>
+          <div
+            key={post.id}
+            style={{
+              border: '4px solid red',
+              padding: '10px',
+              boxSizing: 'border-box',
+            }}
+          >
             <h2>
               <Link to={`/forums/${forumId}/posts/${post.id}`}>{post.title}</Link>
             </h2>
-            {/* <p>{post.content}</p> */}
-            <p>יוצר: {post.createdBy}</p>
-            <p>בתאריך: {post.createdAt?.toDate().toString()}</p>
-          </li>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2em' }}>
+              <p>יוצר: {post.createdBy}</p>
+              <p>בתאריך: {formatDateTime(post.createdAt)}</p>
+            </div>
+          </div>
         ))}
-      </ul>
-      <div>
+      </div>
+      <div style={{ marginTop: '20px' }}>
         <h2>פוסט חדש</h2>
         <form onSubmit={handleSubmit}>
           <div>
