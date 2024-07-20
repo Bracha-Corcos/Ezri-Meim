@@ -143,9 +143,6 @@ const MonthlyCalendar = () => {
         showAddEvent={showAddEvent}
         setShowAddEvent={setShowAddEvent}
       />
-    <div className="back-to-home">
-      <Link to="/" className="back-button">חזרה לדף הבית</Link>
-    </div>
     </div>
   );
 };

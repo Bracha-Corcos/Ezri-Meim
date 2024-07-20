@@ -43,50 +43,59 @@ const UserDetail = () => {
 
   return (
     <div className="user-detail-container">
-    <div className="page-header">
-      <img src={logo} alt="Logo" className="logo" />
-      <h1>פרטי משתמש</h1>
-    </div>
-    <div className="user-detail-content">
-      <p><strong>שם פרטי:</strong> {user.firstname}</p>
-      <p><strong>שם משפחה:</strong> {user.lastname}</p>
-      <p><strong>אימייל:</strong> {user.email}</p>
-      <p><strong>שם משתמש:</strong> {user.username}</p>
-      <p><strong>טלפון:</strong> {user.phone}</p>
-      <p><strong>כתובת:</strong> {user.address}</p>
-      <p><strong>תפקיד:</strong> {user.role === 'admin' ? 'מנהל' : 'חבר פורומים'}</p>
-      <p><strong>מאושר:</strong> {user.isApproved ? 'כן' : 'לא'}</p>
-      <div className="marital-status">
-        <strong>סטטוס:</strong>
-        <span className="status-spacer"></span>
-        <label className="checkbox-container">
-          נשואה/נשוי
-          <input
-            type="checkbox"
-            checked={user.isMarried}
-            onChange={handleMaritalStatusChange}
-          />
-          <span className="checkmark"></span>
-        </label>
+      <div className="page-header">
+        <img src={logo} alt="Logo" className="logo" />
+        <h1>פרטי משתמש</h1>
       </div>
-      <p><strong>מגדר:</strong> {user.gender === 'male' ? 'זכר' : 'נקבה'}</p>
-      <button onClick={() => navigate('/manage-users')}>חזרה לניהול משתמשים</button>
-    </div>
-    {showConfirmation && (
-      <div className="modal">
-        <div className="modal-content">
-          <p>האם לשנות את סטטוס המשתמש?</p>
-          <div className="modal-buttons">
-            <button onClick={confirmMaritalStatusChange}>אישור</button>
-            <button onClick={() => setShowConfirmation(false)}>ביטול</button>
+      <div className="user-detail-content">
+        <p><strong>שם פרטי:</strong> {user.firstname}</p>
+        <p><strong>שם משפחה:</strong> {user.lastname}</p>
+        <p><strong>אימייל:</strong> {user.email}</p>
+        <p><strong>שם משתמש:</strong> {user.username}</p>
+        <p><strong>טלפון:</strong> {user.phone}</p>
+        <p><strong>כתובת:</strong> {user.address}</p>
+        <p><strong>תפקיד:</strong> {user.role === 'admin' ? 'מנהל' : 'חבר פורומים'}</p>
+        <div className="marital-status">
+          <strong>סטטוס:</strong>
+          <span className="status-spacer"></span>
+          <label className="checkbox-container">
+            נשואה/נשוי
+            <input
+              type="checkbox"
+              checked={user.isMarried}
+              onChange={handleMaritalStatusChange}
+            />
+            <span className="checkmark"></span>
+          </label>
+        </div>
+        <p><strong>מגדר:</strong> {user.gender === 'male' ? 'זכר' : 'נקבה'}</p>
+        <p><strong>גיל:</strong> {user.age}</p>
+        <p><strong>במה אתה מאובחן:</strong> {user.diagnosis === 'Crohn' ? 'קרוהן' : 'קוליטיס'}</p>
+        <p><strong>מה המצב שלך:</strong> {
+          user.situation === 'easy' ? 'קל' : 
+          user.situation === 'moderate' ? 'בינוני' : 'קשה'
+        }</p>
+        <p><strong>האם אתה סובל ממחלה פריאנלית:</strong> {user.hasPerinalDisease === 'yes' ? 'כן' : 'לא'}</p>
+        <p><strong>באיזה מסגרת אתה מטופל:</strong> {user.treatmentSetting === 'community' ? 'קהילה' : 'מרכז גסטרו'}</p>
+        <p><strong>כמה שנים אתה מאובחן:</strong> {user.yearsDiagnosed}</p>
+        <p><strong>האם יש לך מחלות נלוות:</strong> {user.accompanyingDiseases}</p>
+        <button onClick={() => navigate('/manage-users')}>חזרה לניהול משתמשים</button>
+      </div>
+      {showConfirmation && (
+        <div className="modal">
+          <div className="modal-content">
+            <p>האם לשנות את סטטוס המשתמש?</p>
+            <div className="modal-buttons">
+              <button onClick={confirmMaritalStatusChange}>אישור</button>
+              <button onClick={() => setShowConfirmation(false)}>ביטול</button>
+            </div>
           </div>
         </div>
+      )}
+      <div className="back-to-home">
+        <Link to="/" className="back-button">חזרה לדף הבית</Link>
       </div>
-    )}
-  <div className="back-to-home">
-      <Link to="/" className="back-button">חזרה לדף הבית</Link>
     </div>
-  </div>
   );
 };
 

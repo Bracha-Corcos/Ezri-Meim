@@ -15,9 +15,16 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
-  const [role, setRole] = useState('forumMember');
-  const [gender, setGender] = useState('male');
+  const [role, setRole] = useState('');
+  const [gender, setGender] = useState('');
   const [isMarried, setIsMarried] = useState(false);
+  const [diagnosis, setDiagnosis] = useState('');
+  const [situation, setSituation] = useState('');
+  const [hasPerinalDisease, setHasPerinalDisease] = useState('');
+  const [treatmentSetting, setTreatmentSetting] = useState('');
+  const [yearsDiagnosed, setYearsDiagnosed] = useState('');
+  const [accompanyingDiseases, setAccompanyingDiseases] = useState('');
+  const [age, setAge] = useState('');
   const [error, setError] = useState('');
   const [showPasswordHint, setShowPasswordHint] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -121,6 +128,11 @@ const Signup = () => {
       setError('כתובת מגורים היא שדה חובה');
       return;
     }
+    
+    if (!age || isNaN(age) || age <= 0) {
+      setError('גיל חייב להיות מספר חיובי');
+      return;
+    }
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -138,6 +150,13 @@ const Signup = () => {
         role: role,
         gender: gender,
         isMarried: isMarried,
+        diagnosis: diagnosis,
+        situation: situation,
+        hasPerinalDisease: hasPerinalDisease,
+        treatmentSetting: treatmentSetting,
+        yearsDiagnosed: yearsDiagnosed,
+        accompanyingDiseases: accompanyingDiseases,
+        age: parseInt(age),
         isApproved: false,
         isSuspended: false,
         createdAt: new Date()
@@ -218,7 +237,9 @@ const Signup = () => {
             onBlur={() => setShowPasswordHint(false)}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {showPasswordHint && <p className="password-hint">הסיסמה חייבת להיות באורך של לפחות 8 תווים ולכלול גם אותיות וגם מספרים</p>}
+        </div>
+        {showPasswordHint && <p className="password-hint">הסיסמה חייבת להיות באורך של לפחות 8 תווים ולכלול גם אותיות וגם מספרים</p>}
+        <div className="input-row">
           <input
             type="password"
             id="confirmPassword"
@@ -249,37 +270,163 @@ const Signup = () => {
             onChange={(e) => setAddress(e.target.value)}
           />
         </div>
+
+
         <div className="input-row">
-          <select
-            id="role"
-            name="role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          >
-            <option value="forumMember">חבר פורומים</option>
-            <option value="admin">מנהל</option>
-          </select>
-          <select
-            id="gender"
-            name="gender"
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
-          >
-            <option value="male">זכר</option>
-            <option value="female">נקבה</option>
-          </select>
+          <div className="select-wrapper">
+            <input
+              type="text"
+              id="role"
+              name="role"
+              placeholder="תפקיד"
+              value={role ? (role === 'forumMember' ? 'חבר פורומים' : 'מנהל') : ''}
+              readOnly
+            />
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="">תפקיד</option>
+              <option value="forumMember">חבר פורומים</option>
+              <option value="admin">מנהל</option>
+            </select>
+          </div>
+
+          <div className="select-wrapper">
+            <input
+              type="text"
+              id="gender"
+              name="gender"
+              placeholder="מגדר"
+              value={gender ? (gender === 'male' ? 'זכר' : 'נקבה') : ''}
+              readOnly
+            />
+            <select
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <option value="">מגדר</option>
+              <option value="male">זכר</option>
+              <option value="female">נקבה</option>
+            </select>
+          </div>
         </div>
         <div className="input-row">
-          <label className="input-row checkbox-row">
-            נשואה/נשוי
+          <div className="select-wrapper">
+            <input
+              type="text"
+              id="diagnosis"
+              name="diagnosis"
+              placeholder="במה אתה מאובחן"
+              value={diagnosis ? (diagnosis === 'Crohn' ? 'קרוהן' : 'קוליטיס') : ''}
+              readOnly
+            />
+            <select
+              value={diagnosis}
+              onChange={(e) => setDiagnosis(e.target.value)}
+            >
+              <option value="">במה אתה מאובחן</option>
+              <option value="Crohn">קרוהן</option>
+              <option value="Colitis">קוליטיס</option>
+            </select>
+          </div>
+          <div className="select-wrapper">
+            <input
+              type="text"
+              id="situation"
+              name="situation"
+              placeholder="מה המצב שלך"
+              value={situation? situation === 'easy'? 'קל': situation === 'moderate'? 'בינוני': 'קשה': ''}
+              readOnly
+            />
+            <select
+              value={situation}
+              onChange={(e) => setSituation(e.target.value)}
+            >
+              <option value="">מה המצב שלך</option>
+              <option value="easy">קל</option>
+              <option value="moderate">בינוני</option>
+              <option value="difficult">קשה</option>
+            </select>
+          </div>
+        </div>
+        <div className="input-row">
+          <div className="select-wrapper">
+            <input
+              type="text"
+              id="hasPerinalDisease"
+              name="hasPerinalDisease"
+              placeholder="האם אתה סובל ממחלה פריאנלית"
+              value={hasPerinalDisease ? (hasPerinalDisease === 'no' ? 'לא' : 'כן') : ''}
+              readOnly
+            />
+            <select
+              value={hasPerinalDisease}
+              onChange={(e) => setHasPerinalDisease(e.target.value)}
+            >
+              <option value="">האם אתה סובל ממחלה פריאנלית</option>
+              <option value="yes">כן</option>
+              <option value="no">לא</option>
+            </select>
+          </div>
+          <div className="select-wrapper">
+            <input
+              type="text"
+              id="treatmentSetting"
+              name="treatmentSetting"
+              placeholder="באיזה מסגרת אתה מטופל"
+              value={treatmentSetting ? (treatmentSetting === 'community' ? 'קהילה' : 'מרכז גסטרו') : ''}
+              readOnly
+            />
+            <select
+              value={treatmentSetting}
+              onChange={(e) => setTreatmentSetting(e.target.value)}
+            >
+              <option value="">באיזה מסגרת אתה מטופל?</option>
+              <option value="community">קהילה</option>
+              <option value="gastroCenter">מרכז גסטרו</option>
+            </select>
+          </div>
+        </div>
+        <div className="input-row">
+          <input
+            type="text"
+            id="yearsDiagnosed"
+            name="yearsDiagnosed"
+            placeholder="כמה שנים אתה מאובחן"
+            value={yearsDiagnosed}
+            onChange={(e) => setYearsDiagnosed(e.target.value)}
+          />
+          <input
+            type="text"
+            id="accompanyingDiseases"
+            name="accompanyingDiseases"
+            placeholder="האם יש לך מחלות נלוות (עור, מפרקים וכו')"
+            value={accompanyingDiseases}
+            onChange={(e) => setAccompanyingDiseases(e.target.value)}
+          />
+        </div>
+        <div className="input-row">
+          <input
+            type="number"
+            id="age"
+            name="age"
+            placeholder="גיל"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+          />
+        </div>
+        <div className="checkbox-row">
+          <label className="checkbox-label">
             <input
               type="checkbox"
               checked={isMarried}
               onChange={(e) => setIsMarried(e.target.checked)}
             />
-            <span className="checkmark"></span>
+            נשואה/נשוי
           </label>
         </div>
+
         <button type="submit">הרשמה</button>
         <p>
           כבר רשום? <Link to="/login">התחבר</Link>
