@@ -52,7 +52,7 @@ function ViewPosts() {
             <h2>
               <Link to={`/forums/${forumId}/posts/${post.id}`}>{post.title}</Link>
             </h2>
-            <p>{post.content}</p>
+            {/* <p>{post.content}</p> */}
             <p>יוצר: {post.createdBy}</p>
             <p>בתאריך: {post.createdAt?.toDate().toString()}</p>
           </li>
