@@ -5,7 +5,7 @@ import { Timestamp, collection, addDoc } from 'firebase/firestore';
 function NewForum() {
   const [name, setName] = useState('');
   const [permission, setPermission] = useState(true);
-  const manager = "batsheva";
+  const manager = "tachlit";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
