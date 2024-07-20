@@ -15,11 +15,6 @@ import NewForum from './components/NewForum.jsx';
 import ForumList from './components/ForumList.jsx';
 import PostDetail from './components/PostDetail.jsx';
 import ViewPosts from './components/ViewPosts.jsx';
-import GeneralForum from './generalForum.js';
-import MenForum from './menForum.js';
-import WomenForum from './womenForum.js';
-import BoysForum from './boysForum.js';
-import GirlsForum from './girlsForum.js';
 
 const PrivateRoute = ({ element, allowedRoles }) => {
   const userRole = localStorage.getItem('userRole');
@@ -121,26 +116,6 @@ function App() {
         <Route path="/user-details/:userId" element={<PrivateRoute element={<UserDetail />} allowedRoles={['admin']} />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/calendar" element={<MonthlyCalendar />} />
-        <Route
-          path="/forum/generalForum"
-          element={<PrivateRoute element={<GeneralForum />} allowedRoles={['forumMember', 'admin']} />}
-        />
-        <Route
-          path="/forum/menForum"
-          element={<PrivateRoute element={<MenForum />} allowedRoles={['forumMember', 'admin']} />}
-        />
-        <Route
-          path="/forum/womenForum"
-          element={<PrivateRoute element={<WomenForum />} allowedRoles={['forumMember', 'admin']} />}
-        />
-        <Route
-          path="/forum/boysForum"
-          element={<PrivateRoute element={<BoysForum />} allowedRoles={['forumMember', 'admin']} />}
-        />
-        <Route
-          path="/forum/girlsForum"
-          element={<PrivateRoute element={<GirlsForum />} allowedRoles={['forumMember', 'admin']} />}
-        />
 
         <Route path="/forums" element={<ForumList />} />
         <Route path="/new-forum" element={<NewForum />} />

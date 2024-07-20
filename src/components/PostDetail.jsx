@@ -76,9 +76,9 @@ function PostDetail() {
     <div>
       <h1>{post.title}</h1>
       <p>{post.content}</p>
-      <p>יוצר: {post.createdBy}</p>
-      <p>בתאריך: {post.createdAt?.toDate().toString()}</p>
-      <div>
+      {/* <p>יוצר: {post.createdBy}</p>
+      <p>בתאריך: {post.createdAt?.toDate().toString()}</p> */}
+      <div className='emoji'>
         {emojiList.map((emoji) => (
           <button key={emoji} onClick={() => handleEmojiClick(emoji, postId, true)}>
             {emoji} {post.emojiReactions?.[emoji] || 0}

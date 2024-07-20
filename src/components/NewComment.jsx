@@ -29,7 +29,6 @@ function NewComment({ postId, onCommentCreated, quoteComment }) {
 
   return (
     <div>
-      <h3>הגב</h3>
       {quoteComment && (
         <div style={{ backgroundColor: '#f9f9f9', padding: '10px', marginBottom: '10px', borderLeft: '5px solid #ccc' }}>
           <p>ציטוט: {quoteComment.text}</p>
