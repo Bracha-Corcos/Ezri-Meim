@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { db } from '../firebase';
 import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
+import '../forums.css';
 
 function ViewPosts() {
   const { forumId } = useParams();

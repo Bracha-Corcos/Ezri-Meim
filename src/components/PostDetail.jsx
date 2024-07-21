@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { db } from '../firebase';
 import { doc, getDoc, updateDoc, collection, getDocs } from 'firebase/firestore';
 import NewComment from './NewComment';
+import './PostDetail.css';
 
 const formatDateTime = (timestamp) => {
   const date = timestamp.toDate();
@@ -81,15 +82,15 @@ function PostDetail() {
     return <div>Loading...</div>;
   }
 
-  const emojiList = ['😊', '❤️', '👍']; // Add more emojis as needed
+  const emojiList = ['😊', '❤️', '👍', '😂','👎','😥']; // Add more emojis as needed
 
   return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>{post.content}</p>
-      <p>יוצר: {post.createdBy}</p>
-      <p>בתאריך: {post.createdAt && formatDateTime(post.createdAt)}</p>
-      <div className='emoji'>
+    <div className="post-container">
+      <h1 className="post-title">{post.title}</h1>
+      <p className="post-content">{post.content}</p>
+      <p className="post-info">יוצר: {post.createdBy}</p>
+      <p className="post-info">בתאריך: {post.createdAt && formatDateTime(post.createdAt)}</p>
+      <div className="emoji-container">
         {emojiList.map((emoji) => (
           <button key={emoji} onClick={() => handleEmojiClick(emoji, postId, true)}>
             {emoji} {post.emojiReactions?.[emoji] || 0}
@@ -98,11 +99,11 @@ function PostDetail() {
       </div>
       <NewComment postId={postId} onCommentCreated={(newComment) => setComments([...comments, newComment])} quoteComment={quoteComment} />
       {comments.length > 0 && (
-        <div>
+        <div className="comments-container">
           {comments.map((comment) => (
-            <div key={comment.id} style={{ border: '1px solid #ccc', margin: '10px 0', padding: '10px' }}>
+            <div key={comment.id} className="comment">
               {comment.quote && (
-                <div style={{ backgroundColor: '#f9f9f9', padding: '10px', margin: '10px 0', borderLeft: '5px solid #ccc' }}>
+                <div className="quote">
                   <p>ציטוט: {comment.quote.text}</p>
                 </div>
               )}
@@ -110,7 +111,7 @@ function PostDetail() {
               <p>יוצר: {comment.createdBy}</p>
               <p>בתאריך: {comment.createdAt && formatDateTime(comment.createdAt)}</p>
               <button onClick={() => handleQuote(comment)}>ציטוט</button>
-              <div className='emoji'>
+              <div className="emoji-container">
                 {emojiList.map((emoji) => (
                   <button key={emoji} onClick={() => handleEmojiClick(emoji, comment.id, false)}>
                     {emoji} {comment.emojiReactions?.[emoji] || 0}
