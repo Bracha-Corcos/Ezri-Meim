@@ -4,6 +4,17 @@ import { db } from '../firebase';
 import { doc, getDoc, updateDoc, collection, getDocs } from 'firebase/firestore';
 import NewComment from './NewComment';
 
+const formatDateTime = (timestamp) => {
+  const date = timestamp.toDate();
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  const timeOptions = { hour: '2-digit', minute: '2-digit' };
+  
+  const formattedDate = date.toLocaleDateString('en-GB', options);
+  const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
+  
+  return `${formattedDate} ${formattedTime}`;
+};
+
 function PostDetail() {
   const { forumId, postId } = useParams();
   const [post, setPost] = useState(null);
@@ -76,8 +87,8 @@ function PostDetail() {
     <div>
       <h1>{post.title}</h1>
       <p>{post.content}</p>
-      {/* <p>יוצר: {post.createdBy}</p>
-      <p>בתאריך: {post.createdAt?.toDate().toString()}</p> */}
+      <p>יוצר: {post.createdBy}</p>
+      <p>בתאריך: {post.createdAt && formatDateTime(post.createdAt)}</p>
       <div className='emoji'>
         {emojiList.map((emoji) => (
           <button key={emoji} onClick={() => handleEmojiClick(emoji, postId, true)}>
@@ -97,9 +108,9 @@ function PostDetail() {
               )}
               <p>{comment.text}</p>
               <p>יוצר: {comment.createdBy}</p>
-              <p>בתאריך: {comment.createdAt?.toDate().toString()}</p>
+              <p>בתאריך: {comment.createdAt && formatDateTime(comment.createdAt)}</p>
               <button onClick={() => handleQuote(comment)}>ציטוט</button>
-              <div>
+              <div className='emoji'>
                 {emojiList.map((emoji) => (
                   <button key={emoji} onClick={() => handleEmojiClick(emoji, comment.id, false)}>
                     {emoji} {comment.emojiReactions?.[emoji] || 0}
@@ -115,4 +126,3 @@ function PostDetail() {
 }
 
 export default PostDetail;
-

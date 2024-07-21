@@ -45,7 +45,7 @@ function ViewPosts() {
   const formatDateTime = (timestamp) => {
     const date = timestamp.toDate();
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    const timeOptions = { hour: '2-digit', minute: '2-digit' };
     
     const formattedDate = date.toLocaleDateString('en-GB', options);
     const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
@@ -58,22 +58,23 @@ function ViewPosts() {
       <h1>פוסטים:</h1>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
         {posts.map((post) => (
-          <div
+          <Link 
+            to={`/forums/${forumId}/posts/${post.id}`}
             key={post.id}
             style={{
               border: '4px solid red',
               padding: '10px',
               boxSizing: 'border-box',
+              textDecoration: 'none',
+              color: 'red'
             }}
           >
-            <h2>
-              <Link to={`/forums/${forumId}/posts/${post.id}`}>{post.title}</Link>
-            </h2>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2em' }}>
-              <p>יוצר: {post.createdBy}</p>
-              <p>בתאריך: {formatDateTime(post.createdAt)}</p>
+            <h2 style={{ color: 'red' }}>{post.title}</h2>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2em', color: 'red' }}>
+              <p style={{ color: 'red' }}>יוצר: {post.createdBy}</p>
+              <p style={{ color: 'red' }}>בתאריך: {formatDateTime(post.createdAt)}</p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
       <div style={{ marginTop: '20px' }}>
