@@ -450,6 +450,7 @@
 
 // export default Signup;
 
+
 import React, { useState } from 'react';
 import './style.css';
 import { auth, db } from './firebase.js';
@@ -485,13 +486,42 @@ const Signup = () => {
  
   const navigate = useNavigate();
 
-  // ... (keep all the existing validation functions)
+  // Validation functions
+  const validateEmail = (email) => {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const validatePassword = (password) => {
+    const re = /^(?=.*[A-Za-zא-ת])(?=.*\d)[A-Za-zא-ת\d]{8,}$/;
+    return re.test(password);
+    // return password.length >= 8 && /\d/.test(password) && /[a-zA-Z]/.test(password);
+  };
+
+  const validatePhone = (phone) => {
+    const re = /^[0-9]{10}$/;
+    return re.test(phone);
+  };
+
+  const isEmailExists = async (email) => {
+    const usersRef = collection(db, 'users');
+    const q = query(usersRef, where("email", "==", email));
+    const querySnapshot = await getDocs(q);
+    return !querySnapshot.empty;
+  };
+
+  const isUsernameExists = async (username) => {
+    const usersRef = collection(db, 'users');
+    const q = query(usersRef, where("username", "==", username));
+    const querySnapshot = await getDocs(q);
+    return !querySnapshot.empty;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    // Validate common fields
+    // Common validations for both roles
     if (!firstname || !lastname || !email || !password || !confirmPassword || !phone || !address) {
       setError('כל השדות הם שדות חובה');
       return;
@@ -522,7 +552,7 @@ const Signup = () => {
       return;
     }
 
-    // Validate forum member specific fields
+    // Role-specific validations
     if (role === 'forumMember') {
       if (!username || !gender || !diagnosis || !situation || !hasPerinalDisease || !treatmentSetting || !yearsDiagnosed || !age) {
         setError('כל השדות הם שדות חובה');
@@ -558,16 +588,18 @@ const Signup = () => {
       };
 
       if (role === 'forumMember') {
-        userData.username = username;
-        userData.gender = gender;
-        userData.isMarried = isMarried;
-        userData.diagnosis = diagnosis;
-        userData.situation = situation;
-        userData.hasPerinalDisease = hasPerinalDisease;
-        userData.treatmentSetting = treatmentSetting;
-        userData.yearsDiagnosed = yearsDiagnosed;
-        userData.accompanyingDiseases = accompanyingDiseases;
-        userData.age = parseInt(age);
+        Object.assign(userData, {
+          username,
+          gender,
+          isMarried,
+          diagnosis,
+          situation,
+          hasPerinalDisease,
+          treatmentSetting,
+          yearsDiagnosed,
+          accompanyingDiseases,
+          age: parseInt(age)
+        });
       }
 
       const usersRef = collection(db, 'users');
@@ -593,6 +625,7 @@ const Signup = () => {
       <form className="signup-form" onSubmit={handleSubmit}>
         <h1>הרשמה</h1>
         {error && <p className="error">{error}</p>}
+        
         <div className="input-row">
           <input
             type="text"
@@ -613,6 +646,7 @@ const Signup = () => {
             onChange={(e) => setLastName(e.target.value)}
           />
         </div>
+        
         <div className="input-row">
           <input
             type="email"
@@ -624,6 +658,7 @@ const Signup = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
+        
         <div className="input-row">
           <input
             type="password"
@@ -646,7 +681,9 @@ const Signup = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
+        
         {showPasswordHint && <p className="password-hint">הסיסמה חייבת להיות באורך של לפחות 8 תווים ולכלול גם אותיות וגם מספרים</p>}
+        
         <div className="input-row">
           <input
             type="tel"
@@ -667,6 +704,7 @@ const Signup = () => {
             onChange={(e) => setAddress(e.target.value)}
           />
         </div>
+
         <div className="input-row">
           <div className="select-wrapper">
             <input
@@ -719,6 +757,7 @@ const Signup = () => {
                 </select>
               </div>
             </div>
+            
             <div className="input-row">
               <div className="select-wrapper">
                 <input
@@ -758,6 +797,7 @@ const Signup = () => {
                 </select>
               </div>
             </div>
+            
             <div className="input-row">
               <div className="select-wrapper">
                 <input
@@ -796,6 +836,7 @@ const Signup = () => {
                 </select>
               </div>
             </div>
+            
             <div className="input-row">
               <input
                 type="text"
@@ -814,6 +855,7 @@ const Signup = () => {
                 onChange={(e) => setAccompanyingDiseases(e.target.value)}
               />
             </div>
+            
             <div className="input-row">
               <input
                 type="number"
@@ -824,6 +866,7 @@ const Signup = () => {
                 onChange={(e) => setAge(e.target.value)}
               />
             </div>
+            
             <div className="checkbox-row">
               <label className="checkbox-label">
                 <input
@@ -845,14 +888,14 @@ const Signup = () => {
       {showConfirmationModal && (
         <div className="modal">
           <div className="modal-content">
-          <p className={role === 'admin' ? 'admin-message' : 'forum-member-message'}>
-            {confirmationMessage}
-          </p>
-          <div className="modal-buttons">
-            <button onClick={handleConfirmation}>אישור</button>
+            <p className={role === 'admin' ? 'admin-message' : 'forum-member-message'}>
+              {confirmationMessage}
+            </p>
+            <div className="modal-buttons">
+              <button onClick={handleConfirmation}>אישור</button>
+            </div>
           </div>
         </div>
-      </div>
       )}
     </div>
   );
