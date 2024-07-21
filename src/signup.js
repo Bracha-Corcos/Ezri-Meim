@@ -28,6 +28,8 @@ const Signup = () => {
   const [error, setError] = useState('');
   const [showPasswordHint, setShowPasswordHint] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+  const [confirmationMessage, setConfirmationMessage] = useState('הרשמתך נקלטה, אנא המתן לאישור מנהל');
  
   const navigate = useNavigate();
 
@@ -157,17 +159,15 @@ const Signup = () => {
         yearsDiagnosed: yearsDiagnosed,
         accompanyingDiseases: accompanyingDiseases,
         age: parseInt(age),
-        isApproved: false,
+        isApproved: false, // Always set to false initially
         isSuspended: false,
         createdAt: new Date()
       });
 
-      // שמירת הערכים ב-localStorage
-      localStorage.setItem('userRole', role);
-      localStorage.setItem('userGender', gender);
-      localStorage.setItem('userMaritalStatus', isMarried.toString());
+      setConfirmationMessage("הרשמתך נקלטה, אנא המתן לאישור מנהל");
 
       setShowConfirmationModal(true);
+
     } catch (err) {
       console.error('Error adding document: ', err);
       setError(`שגיאה ברישום: ${err.message}`);
@@ -435,12 +435,14 @@ const Signup = () => {
       {showConfirmationModal && (
         <div className="modal">
           <div className="modal-content">
-            <p>הרשמה נקלטה, אנא המתן לאישור מנהל</p>
-            <div className="modal-buttons">
-              <button onClick={handleConfirmation}>אישור</button>
-            </div>
+          <p className={role === 'admin' ? 'admin-message' : 'forum-member-message'}>
+            {confirmationMessage}
+          </p>
+          <div className="modal-buttons">
+            <button onClick={handleConfirmation}>אישור</button>
           </div>
         </div>
+      </div>
       )}
     </div>
   );
