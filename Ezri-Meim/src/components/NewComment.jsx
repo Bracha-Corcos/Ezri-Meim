@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { db } from '../firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import '../forums.css';
+import '../signup';
 
 function NewComment({ postId, onCommentCreated, quoteComment }) {
   const { forumId } = useParams();
@@ -37,7 +38,7 @@ function NewComment({ postId, onCommentCreated, quoteComment }) {
       )}
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="text">תגובה:</label>
+          <label htmlFor="text">הגב:</label>
           <textarea
             id="text"
             value={text}
