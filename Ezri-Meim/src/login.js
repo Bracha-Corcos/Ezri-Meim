@@ -24,6 +24,11 @@ const Login = () => {
       const userDoc = await getDoc(doc(db, 'users', user.uid));
       const userData = userDoc.data();
 
+      if (userData.isSuspended) {
+        setError('חשבונך הושהה, אנא פנה למנהל הראשי');
+        return;
+      }
+
       if (userData.isApproved) {
         localStorage.setItem('userRole', userData.role);
         localStorage.setItem('userGender', userData.gender);

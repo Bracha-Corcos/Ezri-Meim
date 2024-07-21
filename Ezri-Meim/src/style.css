@@ -747,3 +747,11 @@ select:focus {
     display: flex;
     flex-direction: row;
   }
+  .admin-message {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .forum-member-message {
+    color: red;
+  }

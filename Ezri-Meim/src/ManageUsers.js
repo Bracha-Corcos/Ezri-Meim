@@ -62,8 +62,8 @@ const ManageUsers = () => {
   const approveUser = async (userId) => {
     const userRef = doc(db, 'users', userId);
     await updateDoc(userRef, { isApproved: true });
-    const userDoc = await getDoc(userRef);
 
+    const userDoc = await getDoc(userRef);
     if (userDoc.exists()) {
       const userData = userDoc.data();
 
@@ -179,7 +179,9 @@ const ManageUsers = () => {
                 </span>
               </div>
               <div className="user-actions">
-                {!user.isApproved && <button onClick={() => showConfirmationModal('approve', user)} className="approve-btn">אשר משתמש</button>}
+                {!user.isApproved &&
+                 <button onClick={() => showConfirmationModal('approve', user)} className="approve-btn">אשר משתמש
+                 </button>}
                 <button onClick={() => showConfirmationModal('toggleSuspension', user)} className="suspend-btn">
                   {user.isSuspended ? 'חידוש משתמש' : 'השהה משתמש'}
                 </button>
