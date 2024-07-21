@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { db } from '../firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
+import '../forums.css';
 
 function ForumList() {
   const [forums, setForums] = useState([]);

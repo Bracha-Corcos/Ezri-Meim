@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { db } from '../firebase';
 import { Timestamp, collection, addDoc } from 'firebase/firestore';
+import '../forums.css';
 
 function NewForum() {
   const [name, setName] = useState('');
