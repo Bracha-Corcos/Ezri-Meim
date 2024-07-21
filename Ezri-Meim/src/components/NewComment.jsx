@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { db } from '../firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import '../forums.css';
 
 function NewComment({ postId, onCommentCreated, quoteComment }) {
   const { forumId } = useParams();
