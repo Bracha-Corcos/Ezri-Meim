@@ -1,0 +1,350 @@
+/* forums.css */
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1, h2, h3 {
+    color: #333;
+  }
+  
+  button {
+    background-color: #007BFF;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #040404;
+  }
+  
+  a:hover {
+    color: #000000;
+  }
+  
+  /* CommentList Styles */
+  .comment-list {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+  }
+  
+  .comment {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .comment-quote {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin: 10px 0;
+    border-left: 5px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* ForumList Styles */
+  .forum-list {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .forum-item {
+    margin: 10px 0;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .forum-item h1 {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .forum-item button {
+    margin-top: 10px;
+  }
+  
+  /* ForumPosts Styles */
+  .forum-posts {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .new-post {
+    margin-top: 20px;
+  }
+  
+  .new-post form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .new-post form div {
+    margin-bottom: 10px;
+  }
+  
+  .new-post form label {
+    margin-bottom: 5px;
+  }
+  
+  /* NewComment Styles */
+  .new-comment {
+    margin-top: 20px;
+  }
+  
+  .new-comment form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .new-comment form div {
+    margin-bottom: 10px;
+  }
+  
+  .new-comment form label {
+    margin-bottom: 5px;
+  }
+  
+  /* NewForum Styles */
+  .new-forum {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  .new-forum form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .new-forum form div {
+    margin-bottom: 10px;
+  }
+  
+  .new-forum form label {
+    margin-bottom: 5px;
+  }
+  
+  /* PostDetail Styles */
+  .post-detail {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-detail .comment {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  /* ViewPosts Styles */
+  .view-posts {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-link {
+    display: block;
+    border: 4px solid rgb(0, 0, 0);
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    transition: border-color 0.3s, color 0.3s;
+  }
+  
+  .post-link:hover {
+    border-color: #000000;
+    color: #000000;
+  }
+  
+  .emoji button {
+    background-color: transparent;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.3s;
+  }
+  
+  .emoji button:hover {
+    transform: scale(1.2);
+  }
+
+ /* תגובות */
+.comment-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .comment-list li {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    color: black;
+  }
+  
+  .comment-quote {
+    background-color: #f1f1f1;
+    padding: 10px;
+    margin: 10px 0;
+    border-left: 5px solid #ccc;
+    color: black;
+  }
+  
+  .comment-text,
+  .comment-meta {
+    color: black;
+  }
+  
+  .comment-meta {
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  .comment-emoji {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .comment-emoji button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+  }
+  
+  .comment-emoji button span {
+    margin-left: 5px;
+    font-size: 0.9em;
+    color: black;
+    font-weight: bold;
+  }
+  
+
+  /* רשימת הפורומים */
+.forum-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .forum-list li {
+    border: 1px solid #333;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #1c1c1c;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+  }
+  
+  .forum-list li:hover {
+    transform: translateY(-5px);
+  }
+  
+  .forum-list h3 {
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  
+  /* יצירת פורום חדש */
+  .new-forum-form {
+    border: 1px solid #333;
+    padding: 20px;
+    background-color: #1c1c1c;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }
+  
+  .new-forum-form input[type="text"],
+  .new-forum-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #333;
+    color: white;
+  }
+  
+  .new-forum-form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ff9900;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .new-forum-form button:hover {
+    background-color: #ff7700;
+  }
+  
+  /* רשימת פוסטים */
+  .post-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .post-list li {
+    border: 1px solid #333;
+    margin: 10px 0;
+    padding: 15px;
+    background-color: #2c2c2c;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+  }
+  
+  .post-list li:hover {
+    transform: translateY(-5px);
+  }
+  
+  .post-list h3 {
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  

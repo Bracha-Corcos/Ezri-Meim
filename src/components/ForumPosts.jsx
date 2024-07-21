@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { db } from '../firebase';
 import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
 import ViewPosts from './ViewPosts';
+import '../forums.css';
 
 function ForumPosts() {
   const { forumId } = useParams();
