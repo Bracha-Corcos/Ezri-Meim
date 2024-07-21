@@ -150,9 +150,20 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-.react-calendar__tile:enabled:hover {
-    background-color: #ffe6f0 !important; /* ורוד בהיר */
-    color: #000 !important;
+/* Style for days from previous and next months */
+.react-calendar__month-view__days__day--neighboringMonth {
+    color: #d3d3d3 !important; /* Light gray color */
+    opacity: 0.5;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__month-view__days__day--neighboringMonth:hover {
+    background-color: #ffe6f0 !important;
+    color: #d3d3d3 !important;
+}
+
+.react-calendar__tile--weekend.react-calendar__month-view__days__day--neighboringMonth {
+    color: #d3d3d3 !important;
 }
 
 .react-calendar__tile--now {
