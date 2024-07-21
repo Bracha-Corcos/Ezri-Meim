@@ -336,8 +336,21 @@ a {
     padding: 10px 20px;
 }
 
+.user-role select {
+    width: auto; 
+    padding: 5px 10px; 
+    font-size: 14px; 
+    height: auto; 
+}
+
 .user-role {
-    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+}
+
+.user-role strong {
+    white-space: nowrap;
 }
 
 .user-details {
