@@ -6,6 +6,9 @@ import NewComment from './NewComment';
 import './PostDetail.css';
 
 const formatDateTime = (timestamp) => {
+  if (!timestamp || !timestamp.toDate) {
+    return 'Invalid date';
+  }
   const date = timestamp.toDate();
   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
   const timeOptions = { hour: '2-digit', minute: '2-digit' };
@@ -27,7 +30,13 @@ function PostDetail() {
       try {
         const postDoc = await getDoc(doc(db, 'forums', forumId, 'posts', postId));
         if (postDoc.exists()) {
-          setPost(postDoc.data());
+          const postData = postDoc.data();
+          setPost({
+            ...postData,
+            emojiReactions: postData.emojiReactions || {},
+          });
+        } else {
+          console.log("No such post!");
         }
       } catch (error) {
         console.error("Error fetching post: ", error);
@@ -40,6 +49,7 @@ function PostDetail() {
         const commentsData = commentsSnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
+          emojiReactions: doc.data().emojiReactions || {},
         }));
         setComments(commentsData);
       } catch (error) {
@@ -51,11 +61,21 @@ function PostDetail() {
     fetchComments();
   }, [forumId, postId]);
 
+  useEffect(() => {
+    console.log("Post updated:", post);
+  }, [post]);
+
+  useEffect(() => {
+    console.log("Comments updated:", comments);
+  }, [comments]);
+
   const handleEmojiClick = async (emoji, itemId, isPost) => {
     const itemDocRef = doc(db, 'forums', forumId, 'posts', postId, ...(isPost ? [] : ['comments', itemId]));
     try {
       const itemDoc = await getDoc(itemDocRef);
-      const updatedReactions = { ...itemDoc.data().emojiReactions, [emoji]: (itemDoc.data().emojiReactions[emoji] || 0) + 1 };
+      const itemData = itemDoc.data();
+      const currentReactions = itemData.emojiReactions || {};
+      const updatedReactions = { ...currentReactions, [emoji]: (currentReactions[emoji] || 0) + 1 };
 
       await updateDoc(itemDocRef, {
         emojiReactions: updatedReactions,
@@ -67,7 +87,13 @@ function PostDetail() {
           emojiReactions: updatedReactions,
         }));
       } else {
-        setComments((prevComments) => prevComments.map(comment => comment.id === itemId ? { ...comment, emojiReactions: updatedReactions } : comment));
+        setComments((prevComments) => 
+          prevComments.map(comment => 
+            comment.id === itemId 
+              ? { ...comment, emojiReactions: updatedReactions } 
+              : comment
+          )
+        );
       }
     } catch (error) {
       console.error("Error updating emoji reactions: ", error);
@@ -82,7 +108,7 @@ function PostDetail() {
     return <div>Loading...</div>;
   }
 
-  const emojiList = ['😊', '❤️', '👍', '😂','👎','😥']; // Add more emojis as needed
+  const emojiList = ['😊', '❤️', '👍', '😂', '👎', '😥'];
 
   return (
     <div className="post-container">
@@ -92,12 +118,21 @@ function PostDetail() {
       <p className="post-info">בתאריך: {post.createdAt && formatDateTime(post.createdAt)}</p>
       <div className="emoji-container">
         {emojiList.map((emoji) => (
-          <button key={emoji} onClick={() => handleEmojiClick(emoji, postId, true)}>
-            {emoji} {post.emojiReactions?.[emoji] || 0}
+          <button 
+            key={emoji} 
+            onClick={() => handleEmojiClick(emoji, postId, true)} 
+            className="emoji-button"
+          >
+            {emoji} <span className="emoji-count">{post.emojiReactions?.[emoji] || 0}</span>
           </button>
         ))}
       </div>
-      <NewComment postId={postId} onCommentCreated={(newComment) => setComments([...comments, newComment])} quoteComment={quoteComment} />
+      {post.imageUrl && <img src={post.imageUrl} alt="post" className="post-image" />}
+      <NewComment 
+        postId={postId} 
+        onCommentCreated={(newComment) => setComments([...comments, newComment])} 
+        quoteComment={quoteComment} 
+      />
       {comments.length > 0 && (
         <div className="comments-container">
           {comments.map((comment) => (
@@ -107,14 +142,19 @@ function PostDetail() {
                   <p>ציטוט: {comment.quote.text}</p>
                 </div>
               )}
-              <p>{comment.text}</p>
-              <p>יוצר: {comment.createdBy}</p>
-              <p>בתאריך: {comment.createdAt && formatDateTime(comment.createdAt)}</p>
-              <button onClick={() => handleQuote(comment)}>ציטוט</button>
+              <p><strong>{comment.createdBy}:</strong> {comment.text}</p>
+              {comment.imageUrl && <img src={comment.imageUrl} alt="comment" className="comment-image" />}
+              <button onClick={() => handleQuote(comment)} className="quote-button">
+                <span className="quote-icon">❝</span> ציטוט
+              </button>
               <div className="emoji-container">
                 {emojiList.map((emoji) => (
-                  <button key={emoji} onClick={() => handleEmojiClick(emoji, comment.id, false)}>
-                    {emoji} {comment.emojiReactions?.[emoji] || 0}
+                  <button 
+                    key={emoji} 
+                    onClick={() => handleEmojiClick(emoji, comment.id, false)} 
+                    className="emoji-button"
+                  >
+                    {emoji} <span className="emoji-count">{comment.emojiReactions?.[emoji] || 0}</span>
                   </button>
                 ))}
               </div>
