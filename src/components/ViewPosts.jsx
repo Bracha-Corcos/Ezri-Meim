@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { db } from '../firebase';
 import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
-import '../forums.css';
+import '../ViewPosts.css';
 
 function ViewPosts() {
   const { forumId } = useParams();
@@ -15,10 +15,19 @@ function ViewPosts() {
       try {
         const postsRef = collection(db, 'forums', forumId, 'posts');
         const querySnapshot = await getDocs(postsRef);
-        const postsData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const postsData = await Promise.all(
+          querySnapshot.docs.map(async (doc) => {
+            const postId = doc.id;
+            const commentsRef = collection(db, 'forums', forumId, 'posts', postId, 'comments');
+            const commentsSnapshot = await getDocs(commentsRef);
+            const commentsCount = commentsSnapshot.size;
+            return {
+              id: postId,
+              commentsCount,
+              ...doc.data(),
+            };
+          })
+        );
         setPosts(postsData);
       } catch (error) {
         console.error("Error fetching posts: ", error);
@@ -35,7 +44,7 @@ function ViewPosts() {
     try {
       const postsRef = collection(db, 'forums', forumId, 'posts');
       const docRef = await addDoc(postsRef, newPost);
-      setPosts([...posts, { ...newPost, id: docRef.id }]);
+      setPosts([...posts, { ...newPost, id: docRef.id, commentsCount: 0 }]);
       setTitle('');
       setContent('');
     } catch (error) {
@@ -55,30 +64,25 @@ function ViewPosts() {
   };
 
   return (
-    <div>
-      <h1>פוסטים:</h1>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+    <div className="forum-container">
+      <h1>רשימת הפוסטים:</h1>
+      <div className="post-list">
         {posts.map((post) => (
           <Link 
             to={`/forums/${forumId}/posts/${post.id}`}
             key={post.id}
-            style={{
-              border: '4px solid red',
-              padding: '10px',
-              boxSizing: 'border-box',
-              textDecoration: 'none',
-              color: 'red'
-            }}
+            className="post-item"
           >
-            <h2 style={{ color: 'red' }}>{post.title}</h2>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '2em', color: 'red' }}>
-              <p style={{ color: 'red' }}>יוצר: {post.createdBy}</p>
-              <p style={{ color: 'red' }}>בתאריך: {formatDateTime(post.createdAt)}</p>
+            <h2 className="post-title">{post.title}</h2>
+            <div className="post-meta">
+              <p>יוצר: {post.createdBy}</p>
+              <p>בתאריך: {formatDateTime(post.createdAt)}</p>
+              <p>תגובות: {post.commentsCount}</p>
             </div>
           </Link>
         ))}
       </div>
-      <div style={{ marginTop: '20px' }}>
+      <div className="new-post">
         <h2>פוסט חדש</h2>
         <form onSubmit={handleSubmit}>
           <div>
@@ -100,7 +104,7 @@ function ViewPosts() {
               required
             />
           </div>
-          <button type="submit">אישור</button>
+          <button type="submit">צור פוסט</button>
         </form>
       </div>
     </div>

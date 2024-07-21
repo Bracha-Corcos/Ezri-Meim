@@ -1,6 +1,6 @@
 .post-container {
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #e9d5d5;
     border-radius: 10px;
     background-color: #f9f9f9;
     max-width: 800px;
@@ -36,11 +36,26 @@
     max-width: 100px;
   }
   
-  .emoji-container button {
+  .emoji-button {
     background: none;
     border: none;
-    font-size: 1.5em;
+    font-size: 1.2em;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 20px;
+    transition: background-color 0.2s;
+  }
+  
+  .emoji-button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .emoji-count {
+    font-size: 0.8em;
+    color: #666;
+    margin-left: 5px;
   }
   
   .comments-container {
@@ -53,6 +68,8 @@
     border-radius: 5px;
     background-color: #fff;
     margin-bottom: 10px;
+    color: black;
+    position: relative;
   }
   
   .quote {
@@ -62,3 +79,49 @@
     margin-bottom: 10px;
   }
   
+  .comment-text {
+    margin-bottom: 10px;
+  }
+  
+  .comment-info {
+    font-size: 0.8em;
+    color: #666;
+    margin-bottom: 5px;
+  }
+  
+  .comment-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .quote-button {
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 0.9em;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: inline-block;
+    transition: background-color 0.3s;
+  }
+  
+  .quote-button:hover {
+    background-color: #000000;
+  }
+  
+  .quote-icon {
+    margin-right: 5px;
+    font-size: 1.2em;
+  }
+  
+  .post-image, .comment-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
