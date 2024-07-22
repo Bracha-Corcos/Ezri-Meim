@@ -1,3 +1,5 @@
+/* signup.js*/
+
 import React, { useState } from 'react';
 import './style.css';
 import { auth, db } from './firebase.js';
@@ -5,6 +7,8 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, doc, setDoc, getDocs, query, where } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from './logo.png';
+import takanon from './takanon.pdf';
+
 
 const Signup = () => {
   const [firstname, setFirstName] = useState('');
@@ -28,9 +32,11 @@ const Signup = () => {
   const [error, setError] = useState('');
   const [showPasswordHint, setShowPasswordHint] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-
   const [confirmationMessage, setConfirmationMessage] = useState('הרשמתך נקלטה, אנא המתן לאישור מנהל');
- 
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
+  
+
   const navigate = useNavigate();
 
   // Validation functions
@@ -67,6 +73,11 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (!agreedToTerms) {
+      setError('יש לאשר את התקנון כדי להירשם');
+      return;
+    }
 
     // Common validations for both roles
     if (!firstname || !lastname || !email || !password || !confirmPassword || !phone || !address) {
@@ -118,6 +129,13 @@ const Signup = () => {
     }
 
     try {
+
+       // Check network connectivity
+       if (!navigator.onLine) {
+        setError('אין חיבור לאינטרנט. אנא בדוק את החיבור שלך ונסה שוב.');
+        return;
+      }
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
@@ -155,9 +173,15 @@ const Signup = () => {
       setConfirmationMessage("הרשמתך נקלטה, אנא המתן לאישור מנהל");
       setShowConfirmationModal(true);
 
-    } catch (err) {
-      console.error('Error adding document: ', err);
-      setError(`שגיאה ברישום: ${err.message}`);
+      } catch (err) {
+      console.error('Error during registration:', err);
+      if (err.code === 'auth/network-request-failed') {
+        setError('שגיאת רשת. אנא בדוק את החיבור לאינטרנט שלך ונסה שוב.');
+      } else if (err.code === 'auth/email-already-in-use') {
+        setError('כתובת האימייל כבר בשימוש. אנא השתמש בכתובת אימייל אחרת.');
+      } else {
+        setError(`שגיאה ברישום: ${err.message}`);
+      }
     }
   };
 
@@ -166,7 +190,18 @@ const Signup = () => {
     navigate('/');
   };
 
+
+  const closeTerms = () => {
+    setShowTerms(false);
+  };
+
+  const handleTermsClick = (e) => {
+    e.preventDefault();
+    window.open(takanon, '_blank');
+  };
+
   return (
+    
     <div className="signup-container">
       <img src={logo} alt="Logo" className="logo" />
       <form className="signup-form" onSubmit={handleSubmit}>
@@ -427,11 +462,23 @@ const Signup = () => {
           </>
         )}
 
+<div className="checkbox-row">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={agreedToTerms}
+              onChange={(e) => setAgreedToTerms(e.target.checked)}
+            />
+            אני מסכים/ה ל<a href="#" onClick={handleTermsClick}>תקנון</a>
+          </label>
+        </div>
+
         <button type="submit">הרשמה</button>
         <p>
           כבר רשום? <Link to="/login">התחבר</Link>
         </p>
-      </form>
+      </form> 
+      
       {showConfirmationModal && (
         <div className="modal">
           <div className="modal-content">
