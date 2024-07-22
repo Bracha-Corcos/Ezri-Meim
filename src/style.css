@@ -45,7 +45,6 @@ body {
     display: flex;
     gap: 10px;
     margin-bottom: 15px;
-    /* margin-bottom: 20px; */
 }
 
 .input-row.checkbox-row {
@@ -351,7 +350,6 @@ a {
     min-width: 120px; 
     padding: 5px 10px;
     font-size: 14px;
-    /* height: auto; */
     margin: 0;
 }
 
@@ -649,7 +647,7 @@ a {
 
 .anonymous-text {
   color: blue;
-  font-size: 16px; /* Adjust size as needed */
+  font-size: 16px; 
 }
 
 .back-to-home {
@@ -660,7 +658,7 @@ a {
 .back-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #72aee6; /* צבע כחול */
+    background-color: #72aee6; 
     text-decoration: none;
     border-radius: 5px;
   }
@@ -701,9 +699,9 @@ select:focus {
 .select-wrapper {
     position: relative;
     width: 100%;
-  }
-  
-  .select-wrapper input {
+}
+
+.select-wrapper input {
     width: 100%;
     padding: 12px;
     border: none;
@@ -712,9 +710,9 @@ select:focus {
     font-size: 16px;
     text-align: right;
     cursor: pointer;
-  }
-  
-  .select-wrapper select {
+}
+
+.select-wrapper select {
     position: absolute;
     top: 0;
     right: 0;
@@ -723,9 +721,9 @@ select:focus {
     width: 100%;
     opacity: 0;
     cursor: pointer;
-  }
-  
-  .select-wrapper::after {
+}
+
+.select-wrapper::after {
     content: '▼';
     font-size: 12px;
     color: #3582c4;
@@ -734,39 +732,39 @@ select:focus {
     left: 10px;
     transform: translateY(-50%);
     pointer-events: none;
-  }
-  
-  .select-wrapper input::placeholder {
-    color: #888;
-  }
+}
 
-  .checkbox-row {
+.select-wrapper input::placeholder {
+    color: #888;
+}
+
+.checkbox-row {
     justify-content: flex-start;
     margin-top: 15px;
     margin-bottom: 15px;
-  }
+}
 
-  .checkbox-row label {
+.checkbox-row label {
     display: flex;
     align-items: center;
     cursor: pointer;
     margin-right: 5px;
-  }
-  
-  .checkbox-row input[type="checkbox"] {
+}
+
+.checkbox-row input[type="checkbox"] {
     margin: 0;
     width: auto;
     margin-left: 5px;
-  }
-  .emoji{
+}
+.emoji{
     display: flex;
     flex-direction: row;
-  }
-  .admin-message {
+}
+.admin-message {
     color: red;
     font-weight: bold;
-  }
-  
-  .forum-member-message {
+}
+
+.forum-member-message {
     color: red;
-  }
+}

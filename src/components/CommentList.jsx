@@ -8,15 +8,19 @@ function CommentList({ comments, onQuote }) {
       <ul className="comment-list">
         {comments.map((comment) => (
           <li key={comment.id} className="comment-item">
-            {comment.quote && (
+            {comment.quote && comment.quote.text && (
               <div className="comment-quote">
                 <p>ציטוט: {comment.quote.text}</p>
               </div>
             )}
             <p className="comment-text">{comment.text}</p>
             <p className="comment-author">יוצר: {comment.createdBy}</p>
-            <p className="comment-date">בתאריך: {comment.createdAt?.toDate().toString()}</p>
-            <button className="quote-button" onClick={() => onQuote(comment)}>ציטוט</button>
+            <p className="comment-date">
+              בתאריך: {comment.createdAt?.toDate().toString()}
+            </p>
+            <button className="quote-button" onClick={() => onQuote(comment)}>
+              ציטוט
+            </button>
           </li>
         ))}
       </ul>
