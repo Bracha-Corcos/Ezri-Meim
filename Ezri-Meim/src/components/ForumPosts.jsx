@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { db } from '../firebase';
-import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
-import ViewPosts from './ViewPosts';
+import { db, auth } from '../firebase';
+import { collection, getDocs, addDoc, Timestamp, doc, getDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 import '../forums.css';
 
 function ForumPosts() {
@@ -10,6 +10,17 @@ function ForumPosts() {
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUser(user);
+      } else {
+        setCurrentUser(null);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -31,11 +42,26 @@ function ForumPosts() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!currentUser) {
+      console.error("No user is currently logged in.");
+      return;
+    }
+
+    const userDocRef = doc(db, 'users', currentUser.uid);
+    const userDoc = await getDoc(userDocRef);
+    const userData = userDoc.exists() ? userDoc.data() : null;
+    
+    if (!userData) {
+      console.error("User data not found.");
+      return;
+    }
+
     const newPost = {
       title,
       content,
       createdAt: Timestamp.now(),
-      createdBy: 'currentUser', // Replace with actual user data
+      createdBy: userData.username,
+      createdById: currentUser.uid, // Ensure createdById is set
       openToEdit: true,
       comments: [],
       emojiReactions: {}, // Initialize emojiReactions field
@@ -62,7 +88,6 @@ function ForumPosts() {
             <p>{post.content}</p>
             <p>יוצר: {post.createdBy}</p>
             <p>בתאריך: {post.createdAt.toDate().toString()}</p>
-            <ViewPosts post={post} forumId={forumId} />
           </li>
         ))}
       </ul>

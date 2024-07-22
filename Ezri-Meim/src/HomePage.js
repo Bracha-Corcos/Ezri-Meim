@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase.js';
 import logo from './logo.png';
+import './style.css';
 
 const HomePage = () => {
   const navigate = useNavigate();

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { db } from '../firebase';
-import { collection, getDocs, addDoc, Timestamp } from 'firebase/firestore';
+import { db, auth } from '../firebase';
+import { collection, getDocs, addDoc, Timestamp, doc, getDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 import '../ViewPosts.css';
 
 function ViewPosts() {
@@ -9,6 +10,25 @@ function ViewPosts() {
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setCurrentUser(user);
+        const userDocRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userDocRef);
+        const userData = userDoc.exists() ? userDoc.data() : null;
+        if (userData) {
+          setUsername(userData.username);
+        }
+      } else {
+        setCurrentUser(null);
+        setUsername('');
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -39,7 +59,18 @@ function ViewPosts() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newPost = { title, content, createdAt: Timestamp.now(), createdBy: 'currentUser' };
+    if (!currentUser || !username) {
+      console.error("No user is currently logged in or username not found.");
+      return;
+    }
+
+    const newPost = {
+      title,
+      content,
+      createdAt: Timestamp.now(),
+      createdBy: username,
+      createdById: currentUser.uid, // Ensure createdById is set
+    };
 
     try {
       const postsRef = collection(db, 'forums', forumId, 'posts');
