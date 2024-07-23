@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, where } from 'firebase/firestore';
-import { db, auth } from './firebase.js'; // Import auth to get the current user
+import { db, auth } from './firebase.js';
 import { Link } from 'react-router-dom';
 import EventModal from './EventModal.js';
 import './Calendar.css';
@@ -101,6 +101,7 @@ const MonthlyCalendar = () => {
         event.date.toDateString() === date.toDateString()
       );
       return (
+        
         <div className={`calendar-day ${eventsOnDate.length > 0 ? 'has-event' : ''}`}>
           {eventsOnDate.length > 0 && (
             <div>
@@ -120,6 +121,7 @@ const MonthlyCalendar = () => {
   };
 
   return (
+    
     <div className="calendar-container">
       <Calendar
         onChange={onDateChange}
