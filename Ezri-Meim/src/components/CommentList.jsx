@@ -1,5 +1,5 @@
 import React from 'react';
-import '../forums.css';
+import './forum.css';
 
 function CommentList({ comments, onQuote }) {
   return (

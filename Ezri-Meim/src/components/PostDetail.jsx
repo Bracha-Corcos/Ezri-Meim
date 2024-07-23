@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { db, auth } from '../firebase';
-import { doc, getDoc, updateDoc, collection, getDocs, deleteDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, collection, getDocs, deleteDoc, addDoc } from 'firebase/firestore';
 import NewComment from './NewComment';
 import './PostDetail.css';
 
@@ -24,7 +24,6 @@ function PostDetail() {
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
-  const [quoteComment, setQuoteComment] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -35,7 +34,6 @@ function PostDetail() {
         setCurrentUser(user);
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         setIsAdmin(userDoc.data()?.role === 'admin');
-        console.log('Current user set:', user.uid);
       } else {
         setCurrentUser(null);
         setIsAdmin(false);
@@ -59,7 +57,6 @@ function PostDetail() {
             emojiReactions: postData.emojiReactions || {},
             userReactions: postData.userReactions || {},
           });
-          console.log('Post set:', postData);
         } else {
           console.log("No such post!");
         }
@@ -86,12 +83,6 @@ function PostDetail() {
     fetchPost();
     fetchComments();
   }, [forumId, postId]);
-
-  useEffect(() => {
-    console.log('Current user:', currentUser);
-    console.log('Post:', post);
-    console.log('Is admin:', isAdmin);
-  }, [currentUser, post, isAdmin]);
 
   const handleEmojiClick = async (emoji, itemId, isPost) => {
     const itemDocRef = doc(db, 'forums', forumId, 'posts', postId, ...(isPost ? [] : ['comments', itemId]));
@@ -140,23 +131,11 @@ function PostDetail() {
     }
   };
 
-  const handleQuote = (comment) => {
-    setQuoteComment(comment);
-  };
-
   const handleDeletePost = async () => {
-    console.log('Attempting to delete post');
-    console.log('Current user:', currentUser);
-    console.log('Post:', post);
-    console.log('Is admin:', isAdmin);
-
     if (!currentUser) {
       console.log("You need to be logged in to delete this post");
       return;
     }
-
-    console.log('currentUser.uid:', currentUser.uid);
-    console.log('post.createdById:', post.createdById);
 
     if (!isAdmin && currentUser.uid !== post.createdById) {
       console.log("You don't have permission to delete this post");
@@ -197,7 +176,6 @@ function PostDetail() {
   const emojiList = ['😊', '❤️', '👍', '😂', '👎', '😥'];
 
   const canDeletePost = isAdmin || (currentUser && currentUser.uid === post.createdById);
-  console.log('Can delete post:', canDeletePost);
 
   return (
     <div className="post-container">
@@ -226,24 +204,19 @@ function PostDetail() {
         <button onClick={handleDeletePost} className="delete-button">מחק פוסט</button>
       )}
       <NewComment 
-        postId={postId} 
-        onCommentCreated={(newComment) => setComments([...comments, newComment])} 
-        quoteComment={quoteComment} 
+        postId={postId}
+        forumId={forumId}
+        onCommentCreated={(newComment) => setComments([...comments, newComment])}
       />
       {comments.length > 0 && (
         <div className="comments-container">
           {comments.map((comment) => (
             <div key={comment.id} className="comment">
-              {comment.quote && (
-                <div className="quote">
-                  <p>ציטוט: {comment.quote.text}</p>
-                </div>
-              )}
               <p><strong>{comment.createdBy}:</strong> {comment.text}</p>
               {comment.imageUrl && <img src={comment.imageUrl} alt="comment" className="comment-image" />}
-              <button onClick={() => handleQuote(comment)} className="quote-button">
-                <span className="quote-icon">❝</span> ציטוט
-              </button>
+              <Link to={`/forums/${forumId}/posts/${postId}/comments/${comment.id}/quotes`} className="quote-button">
+                <span className="quote-icon">💬</span> ציטוטים
+              </Link>
               <div className="emoji-container">
                 {emojiList.map((emoji) => {
                   const userId = auth.currentUser?.uid;

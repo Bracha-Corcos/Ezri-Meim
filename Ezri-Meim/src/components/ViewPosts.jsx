@@ -96,23 +96,6 @@ function ViewPosts() {
 
   return (
     <div className="forum-container">
-      <h1>רשימת הפוסטים:</h1>
-      <div className="post-list">
-        {posts.map((post) => (
-          <Link 
-            to={`/forums/${forumId}/posts/${post.id}`}
-            key={post.id}
-            className="post-item"
-          >
-            <h2 className="post-title">{post.title}</h2>
-            <div className="post-meta">
-              <p>יוצר: {post.createdBy}</p>
-              <p>בתאריך: {formatDateTime(post.createdAt)}</p>
-              <p>תגובות: {post.commentsCount}</p>
-            </div>
-          </Link>
-        ))}
-      </div>
       <div className="new-post">
         <h2>פוסט חדש</h2>
         <form onSubmit={handleSubmit}>
@@ -137,6 +120,23 @@ function ViewPosts() {
           </div>
           <button type="submit">צור פוסט</button>
         </form>
+      </div>
+      <h1>רשימת הפוסטים:</h1>
+      <div className="post-list">
+        {posts.map((post) => (
+          <Link 
+            to={`/forums/${forumId}/posts/${post.id}`}
+            key={post.id}
+            className="post-item"
+          >
+            <h2 className="post-title">{post.title}</h2>
+            <div className="post-meta">
+              <p>יוצר: {post.createdBy}</p>
+              <p>בתאריך: {formatDateTime(post.createdAt)}</p>
+              <p>תגובות: {post.commentsCount}</p>
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   );

@@ -35,13 +35,13 @@ ul {
 
 /* Links */
 a {
-  color: #3498db;
+  color: #e74c3c;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 a:hover {
-  color: #2980b9;
+  color: #c0392b;
 }
 
 /* Buttons */
@@ -62,7 +62,7 @@ button:hover, .submit-button:hover {
 /* Post styles */
 .post-title {
   font-size: 1.5em;
-  color: #2c3e50;
+  color: #e74c3c;
   margin-bottom: 10px;
 }
 
@@ -82,11 +82,12 @@ button:hover, .submit-button:hover {
   border-radius: 4px;
   padding: 15px;
   margin-bottom: 15px;
+  border-left: 4px solid #3498db;
 }
 
 .quote {
   background-color: #ecf0f1;
-  border-left: 3px solid #3498db;
+  border-left: 3px solid #e74c3c;
   padding: 10px;
   margin-bottom: 10px;
 }
@@ -100,7 +101,7 @@ input[type="text"], textarea {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #bdc3c7;
+  border: 1px solid #3498db;
   border-radius: 4px;
 }
 
@@ -154,7 +155,7 @@ input[type="text"], textarea {
 
 .forum-list-title {
   text-align: center;
-  color: #333;
+  color: #e74c3c;
   margin-bottom: 30px;
   font-size: 2.5em;
 }
@@ -170,6 +171,7 @@ input[type="text"], textarea {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid #3498db;
 }
 
 .forum-item:hover {
@@ -187,7 +189,7 @@ input[type="text"], textarea {
 .forum-name {
   font-size: 1.4em;
   margin-bottom: 10px;
-  color: #2c3e50;
+  color: #e74c3c;
 }
 
 .forum-private-tag {
@@ -207,7 +209,7 @@ input[type="text"], textarea {
 
 .forum-stats {
   font-size: 0.9em;
-  color: #888;
+  color: #3498db;
 }
 
 @media (max-width: 768px) {

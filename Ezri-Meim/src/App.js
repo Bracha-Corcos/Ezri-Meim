@@ -15,6 +15,7 @@ import NewForum from './components/NewForum.jsx';
 import ForumList from './components/ForumList.jsx';
 import PostDetail from './components/PostDetail.jsx';
 import ViewPosts from './components/ViewPosts.jsx';
+import CommentQuotes from './components/CommentQuotes.jsx';
 
 const PrivateRoute = ({ element, allowedRoles }) => {
   const userRole = localStorage.getItem('userRole');
@@ -121,6 +122,7 @@ function App() {
         <Route path="/new-forum" element={<NewForum />} />
         <Route path="/forums/:forumId" element={<ViewPosts />} />
         <Route path="/forums/:forumId/posts/:postId" element={<PostDetail />} />
+        <Route path="/forums/:forumId/posts/:postId/comments/:commentId/quotes" element={<CommentQuotes />} />
 
       </Routes>
     </div>
