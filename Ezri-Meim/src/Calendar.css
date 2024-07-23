@@ -110,13 +110,14 @@ body {
 .react-calendar {
     position: relative;
     z-index: 0;
-    width: 95%;
-    height: 95%;
+    width: 80%; /* הקטנו מ-95% ל-80% */
+    height: 100%; 
     background: #fff;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     border: none;
     padding: 20px;
+    margin: auto; /* מרכז את הלוח במיכל */
 }
 
 /* עיצוב תאי לוח השנה */
@@ -200,6 +201,17 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+
+/* הקטנת גופן ותאים */
+.react-calendar__month-view__days__day {
+    font-size: 14px; /* הקטנת גודל הגופן */
+    padding: 10px;
+}
+
+.react-calendar__navigation button {
+    font-size: 14px; /* הקטנת גודל הגופן בכפתורי הניווט */
 }
 
 /* Style for days from previous and next months */
