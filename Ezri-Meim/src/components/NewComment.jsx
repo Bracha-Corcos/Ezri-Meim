@@ -72,6 +72,7 @@ function NewComment({ postId, onCommentCreated, quoteComment }) {
             value={text}
             onChange={(e) => setText(e.target.value)}
             required
+            className='replying-to'
           />
         </div>
         <button type="submit" className="submit-button">אישור</button>
@@ -81,6 +82,3 @@ function NewComment({ postId, onCommentCreated, quoteComment }) {
 }
 
 export default NewComment;
-
-
-

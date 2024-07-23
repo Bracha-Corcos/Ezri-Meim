@@ -56,7 +56,7 @@ const EventModal = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="Modal"
+      className="Modal-calendar"
       overlayClassName="Overlay"
     >
       {selectedEvents.map((event, index) => (
@@ -73,7 +73,7 @@ const EventModal = ({
       ))}
 
       {!showAddEvent && (
-        <button onClick={() => setShowAddEvent(true)} className="small-button">
+        <button onClick={() => setShowAddEvent(true)} className="small-button-calendar">
           הוסף אירוע
         </button>
       )}

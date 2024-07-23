@@ -161,15 +161,15 @@ function CommentQuotes() {
         <div className="quote-content">
           {quote.replyTo && (
             <div className="replied-to">
-              Replying to: <strong>{quotes.find(q => q.id === quote.replyTo)?.createdBy}</strong>
+              משיב ל: <strong>{quotes.find(q => q.id === quote.replyTo)?.createdBy}</strong>
             </div>
           )}
           <p><strong>{quote.createdBy}:</strong> {quote.text}</p>
-          <p className="quote-info">Date: {formatDateTime(quote.createdAt)}</p>
+          <p className="quote-info">תאריך: {formatDateTime(quote.createdAt)}</p>
         </div>
         <div className="quote-actions">
           <button onClick={() => handleReply(quote)} className="reply-button">
-            Reply
+            תגובה
           </button>
           <div className="emoji-container">
             {emojiList.map((emoji) => {
@@ -191,7 +191,7 @@ function CommentQuotes() {
         {replies.length > 0 && (
           <div className="replies-section">
             <button onClick={() => toggleExpand(quote.id)} className="expand-button">
-              {isExpanded ? 'Hide Replies' : `Show Replies (${replies.length})`}
+              {isExpanded ? 'הסתר תגובה' : `הראה תגובות (${replies.length})`}
             </button>
             {isExpanded && (
               <div className="replies">
@@ -206,25 +206,25 @@ function CommentQuotes() {
 
   return (
     <div className="comment-quotes-container">
-      <h2>Quotes for Comment</h2>
+      <h2>ציטוטים לתגובה</h2>
       <div className="original-comment">
         <p><strong>{comment.createdBy}:</strong> {comment.text}</p>
-        <p className="comment-info">Date: {formatDateTime(comment.createdAt)}</p>
+        <p className="comment-info">תאריך: {formatDateTime(comment.createdAt)}</p>
       </div>
       <form ref={newQuoteFormRef} onSubmit={handleSubmitQuote} className="new-quote-form">
         {replyTo && (
           <div className="replying-to">
-            <p>Replying to: <strong>{replyTo.createdBy}</strong></p>
+            <p>הגב ל: <strong>{replyTo.createdBy}</strong></p>
             <button onClick={() => setReplyTo(null)} type="button">Cancel</button>
           </div>
         )}
         <textarea
           value={newQuote}
           onChange={(e) => setNewQuote(e.target.value)}
-          placeholder="Add a new quote"
+          placeholder="הוסף ציטוט חדש"
           required
         />
-        <button type="submit">Add Quote</button>
+        <button type="submit">הוסף ציטוט</button>
       </form>
       <div className="quotes-list">
         {quotes.filter(quote => !quote.replyTo).map(quote => renderQuote(quote))}
