@@ -53,6 +53,7 @@ function PostDetail() {
           setPost({
             id: postDoc.id,
             ...postData,
+            createdBy: forumId === 'general' ? 'user' : postData.createdBy,
             createdById: postData.createdById || null,
             emojiReactions: postData.emojiReactions || {},
             userReactions: postData.userReactions || {},
@@ -71,6 +72,7 @@ function PostDetail() {
         const commentsData = commentsSnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
+          createdBy: forumId === 'general' ? 'user' : doc.data().createdBy,
           emojiReactions: doc.data().emojiReactions || {},
           userReactions: doc.data().userReactions || {},
         }));

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { db, auth } from '../firebase';
 import { doc, getDoc, updateDoc, collection, getDocs, addDoc } from 'firebase/firestore';
-import './PostDetail';
+import './PostDetail.css';
 
 const formatDateTime = (timestamp) => {
   if (!timestamp || !timestamp.toDate) {
@@ -36,7 +36,12 @@ function CommentQuotes() {
       try {
         const commentDoc = await getDoc(doc(db, 'forums', forumId, 'posts', postId, 'comments', commentId));
         if (commentDoc.exists()) {
-          setComment({ id: commentDoc.id, ...commentDoc.data() });
+          const commentData = commentDoc.data();
+          setComment({ 
+            id: commentDoc.id, 
+            ...commentData,
+            createdBy: forumId === 'general' ? 'user' : commentData.createdBy
+          });
         } else {
           console.log("No such comment!");
         }
@@ -51,6 +56,7 @@ function CommentQuotes() {
         const quotesData = quotesSnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data(),
+          createdBy: forumId === 'general' ? 'user' : doc.data().createdBy,
           emojiReactions: doc.data().emojiReactions || {},
           userReactions: doc.data().userReactions || {},
         }));
@@ -73,11 +79,7 @@ function CommentQuotes() {
 
     try {
       const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-      let username = userDoc.data().username;
-      
-      if (forumId === 'general') {
-        username = 'user';
-      }
+      const username = forumId === 'general' ? 'user' : userDoc.data().username;
 
       const newQuoteData = {
         text: newQuote,
