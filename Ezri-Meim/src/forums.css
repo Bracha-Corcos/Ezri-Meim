@@ -42,7 +42,7 @@ a {
 
 /* Buttons */
 button, .submit-button {
-  background-color: #3498db;
+  background-color: #3582c4;
   color: #fff;
   border: none;
   padding: 10px 15px;
@@ -52,7 +52,7 @@ button, .submit-button {
 }
 
 button:hover, .submit-button:hover {
-  background-color: #2980b9;
+  background-color: #3582c4;
 }
 
 /* Post styles */
@@ -78,7 +78,7 @@ button:hover, .submit-button:hover {
   border-radius: 4px;
   padding: 15px;
   margin-bottom: 15px;
-  border-left: 4px solid #3498db;
+  border-left: 4px solid #3582c4;
 }
 
 .quote {
@@ -159,7 +159,7 @@ form {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 2px solid #3498db;
+  border: 2px solid #3582c4;
 }
 
 .forum-item:hover {
@@ -197,7 +197,7 @@ form {
 
 .forum-stats {
   font-size: 0.9em;
-  color: #3498db;
+  color: #3582c4;
 }
 
 @media (max-width: 768px) {

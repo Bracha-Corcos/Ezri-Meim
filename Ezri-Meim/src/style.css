@@ -85,7 +85,7 @@ button {
 }
 
 button:hover {
-    background-color: #72aee6;
+    background-color: #3582c4;
 }
 
 p {
@@ -620,7 +620,7 @@ a {
 }
 
 .anonymous-text {
-  color: blue;
+  color: #3582c4;
   font-size: 16px; 
 }
 

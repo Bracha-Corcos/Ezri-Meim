@@ -27,7 +27,7 @@
 }
 
 .post-item {
-  border: 2px solid #3498db;
+  border: 2px solid #3582c4;
   padding: 15px;
   border-radius: 5px;
   background-color: #fff;
@@ -51,12 +51,12 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
-  color: #3498db;
+  color: #3582c4;
 }
 
 .post-meta p {
   margin: 0;
-  color: #3498db;
+  color: #3582c4;
 }
 
 .new-post {
