@@ -73,7 +73,11 @@ function CommentQuotes() {
 
     try {
       const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-      const username = userDoc.data().username;
+      let username = userDoc.data().username;
+      
+      if (forumId === 'general') {
+        username = 'user';
+      }
 
       const newQuoteData = {
         text: newQuote,

@@ -206,7 +206,12 @@ function PostDetail() {
       <NewComment 
         postId={postId}
         forumId={forumId}
-        onCommentCreated={(newComment) => setComments([...comments, newComment])}
+        onCommentCreated={(newComment) => {
+          const anonymizedComment = forumId === 'general' 
+            ? { ...newComment, createdBy: 'user' } 
+            : newComment;
+          setComments([...comments, anonymizedComment]);
+        }}
       />
       {comments.length > 0 && (
         <div className="comments-container">

@@ -59,17 +59,22 @@ function ViewPosts() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!currentUser || !username) {
-      console.error("No user is currently logged in or username not found.");
+    if (!currentUser) {
+      console.error("No user is currently logged in.");
       return;
+    }
+
+    let createdBy = username;
+    if (forumId === 'general') {
+      createdBy = 'user';
     }
 
     const newPost = {
       title,
       content,
       createdAt: Timestamp.now(),
-      createdBy: username,
-      createdById: currentUser.uid, // Ensure createdById is set
+      createdBy,
+      createdById: currentUser.uid,
     };
 
     try {
